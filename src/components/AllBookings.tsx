@@ -6,6 +6,7 @@ import { deleteBookings } from "@/libs/deleteBooking";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { updateBooking } from "@/libs/updateBooking";
+import updateStatus from "@/libs/updateStatus"
 import { now } from "next-auth/client/_utils";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs"; // Import dayjs for formatting
@@ -35,8 +36,14 @@ const AllBookings = () => {
       try {
         
         const data = await getBookings(token); // Fetch bookings with token
+        console.log("Fetched Bookings:", data.data);
         setBookings(data.data);
         setLoading(false);
+        // Debugging the booking status after fetching the bookings
+        data.data.forEach((booking: BookingData) => {
+        console.log("Booking Status:", booking.status);
+      });
+
       } catch (error) {
         console.error("Error fetching bookings:", error);
         setError("Failed to fetch bookings");
@@ -87,7 +94,26 @@ const AllBookings = () => {
     }
   };
 
-  console.log(bookings);
+  const handleStatusChange = async (booking: BookingData, newStatus: "received" | "returned") => {
+    try {
+      console.log(booking.status)
+      await updateStatus(booking.carProvider._id, token, newStatus);
+
+      if (newStatus === "returned") {
+        setBookings(bookings.filter((b) => b._id !== booking._id)); // Remove from UI after "return"
+      } else {
+        // If status is "received", update the booking status in UI
+        setBookings(bookings.map((b) =>
+          b._id === booking._id ? { ...b, status: newStatus } : b
+        ));
+      }
+    } catch (error) {
+      console.error("Error changing status:", error);
+    }
+  };
+
+  //console.log(bookings);
+
 
   return (
     <div className="p-6 bg-[#FFD8A3] min-h-screen">
@@ -124,6 +150,8 @@ const AllBookings = () => {
               </tr>
             </table>
             
+            <p className="text-gray-700">Booking Status: {booking.status}</p>
+
             <button className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 hover:shadow-lg transition duration-300 ease-in-out my-3 mx-1"
               onClick={async () => {
                 await deleteBookings(token, booking._id); // Call API
@@ -139,6 +167,20 @@ const AllBookings = () => {
               }}>
               Edit
             </button>
+            {/* Add received and return buttons */}
+            { booking.status === "rented" && (
+              <button className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:shadow-lg focus:ring-2 focus:ring-green-300 transition duration-300 ease-in-out my-3 mx-1"
+                onClick={() => handleStatusChange(booking, "received")}>
+                Received
+              </button>
+            )}
+
+            {booking.status === "received" && (
+              <button className="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 hover:shadow-lg focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out my-3 mx-1"
+                onClick={() => handleStatusChange(booking, "returned")}>
+                Return
+              </button>
+            )}
           </div>
         ))
       )}
