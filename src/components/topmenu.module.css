@@ -1,0 +1,42 @@
+.menucontainer {
+    height: 70px;
+    background-color: white;
+    position: fixed;
+    top: 0px;
+    left:0px;
+    right: 0px;
+    z-index: 30;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.logoimg {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.itemcontainer {
+    margin-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: auto;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: grey;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.active {
+    color: orange;
+    border-radius: 4px;
+}
