@@ -7,6 +7,7 @@ export default async function getCarProviders(
     // const carProviders = await getCarProviders()
     await new Promise(resolve => setTimeout(resolve, 300));
     let newUrl = "https://fe-project-2024-2-rest-in-api.vercel.app/api/v1/carProviders?" + url
+    // let newUrl = "https://localhost:5000/api/v1/carProviders?" + url
     console.log(newUrl)
     const response = await fetch(newUrl)
     if(!response.ok){

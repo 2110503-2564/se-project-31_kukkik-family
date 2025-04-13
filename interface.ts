@@ -30,7 +30,7 @@ interface CarProvider {
     carProvider: CarProvider;
     createdAt: string;
     __v: number;
-    status: 'available' | 'rented' | 'received' | 'returned';
+    status: 'rented' | 'received' | 'returned';
   }
   
   interface BookingResponse {

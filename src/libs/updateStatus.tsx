@@ -1,14 +1,14 @@
 export default async function updateStatus(
-    cid: string, 
+    bid: string, 
     token: string,
-    newStatus: "available" | "rented" | "received" | "returned"
+    newStatus: "rented" | "received" | "returned"
 ) {
     try {
         await new Promise(resolve => setTimeout(resolve, 300));  // Delay to simulate async behavior
 
         // const response = await fetch(`https://fe-project-2024-2-rest-in-api.vercel.app/api/v1/carProviders/${cid}/status`, {
-            const response = await fetch(`http://localhost:5000/api/v1/carProviders/${cid}/status`, {
-            method: "PUT",
+            const response = await fetch(`http://localhost:5000/api/v1/bookings/${bid}/status`, {
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
@@ -24,7 +24,7 @@ export default async function updateStatus(
         }
 
         const data = await response.json();
-        return data.data; 
+        return data.status; 
     } catch (error) {
         console.error("Error updating car provider status:", error);
         throw error; 
