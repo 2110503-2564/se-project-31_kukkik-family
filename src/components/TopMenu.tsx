@@ -36,6 +36,9 @@ export default function TopMenu() {
                         <Link href='/mybooking' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/mybooking' ? styles.active : ''}`}>
                             All Bookings
                         </Link>
+                        <Link href='/wallet' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/wallet' ? styles.active : ''}`}>
+                            Wallet
+                        </Link>
                         <Link href="/api/auth/signout" prefetch={true} className={styles.itemcontainer}>
                             Sign-Out of {session.user?.name}
                         </Link>

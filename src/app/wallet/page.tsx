@@ -28,7 +28,7 @@ export default function WalletPage() {
   }, [])
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-black bg-orange-50 px-2 py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen text-black bg-[#FFD8A3] px-2 py-2">
       {/* Box showing coin count */}
       <div className="bg-white rounded-3xl shadow-md px-16 py-14 mb-10 text-center">
         <h1 className="text-7xl font-bold">
