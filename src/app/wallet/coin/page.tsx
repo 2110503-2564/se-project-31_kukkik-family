@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 export default function CoinPage() {
   const router = useRouter();
   const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
-  const [showCustomInput, setShowCustomInput] = useState(false);
   const [customValue, setCustomValue] = useState('');
+  const [customConfirmed, setCustomConfirmed] = useState(false);
+  const [lastClicked, setLastClicked] = useState<'preset' | 'custom' | null>(null);
 
   // coin options
   const coinOptions = [100, 200, 300, 400, 500];
@@ -15,13 +16,15 @@ export default function CoinPage() {
   // handle coin box click
   const handleCoinSelect = (coin: number) => {
     setSelectedCoin(coin);
-    setShowCustomInput(false);
+    setCustomConfirmed(false);
+    setLastClicked('preset');
   };
 
   // handle custom box click
   const handleCustomClick = () => {
-    setSelectedCoin(null);
-    setShowCustomInput(true);
+    setCustomValue('');
+    setCustomConfirmed(false);
+    setLastClicked('custom');
   };
 
   // handle custom input confirm
@@ -32,7 +35,8 @@ export default function CoinPage() {
       return;
     }
     setSelectedCoin(value);
-    setShowCustomInput(false);
+    setCustomConfirmed(true);
+    setLastClicked('custom');
   };
 
   // handle add coins button click
@@ -42,7 +46,7 @@ export default function CoinPage() {
       return;
     }
 
-    const currentBalance = 500; // ** replace with real user coin balance **
+    const currentBalance = 500; // ** will replace with real user coin balance **
 
     if (selectedCoin > currentBalance) {
       alert('Not enough balance');
@@ -59,31 +63,51 @@ export default function CoinPage() {
             key={coin}
             onClick={() => handleCoinSelect(coin)}
             className={`w-32 h-24 rounded-xl text-2xl font-bold shadow transition ${
-              selectedCoin === coin ? 'bg-gray-300' : 'bg-white'
+              selectedCoin === coin && lastClicked === 'preset' ? 'bg-gray-300' : 'bg-white'
             }`}
           >
             {coin} <br /> COINS
           </button>
         ))}
+
+        {/* custom coin box */}
         <button
-          onClick={handleCustomClick}
+          onClick={() => {
+            if (customConfirmed && lastClicked === 'custom') {
+              // re-edit if already confirmed and last clicked was custom
+              setCustomConfirmed(false);
+              setCustomValue(selectedCoin?.toString() || '');
+              setLastClicked('custom');
+            } else {
+              handleCustomClick();
+            }
+          }}
           className={`w-32 h-24 rounded-xl text-2xl font-bold shadow transition ${
-            showCustomInput ? 'bg-gray-300' : 'bg-white'
+            lastClicked === 'custom' && customConfirmed ? 'bg-gray-300' : 'bg-white'
           }`}
         >
-          CUSTOM
+          {customConfirmed && lastClicked === 'custom' && selectedCoin ? (
+            <span className="text-green-600">
+              {selectedCoin} <br /> COINS
+            </span>
+          ) : (
+            <>CUSTOM</>
+          )}
         </button>
       </div>
 
-      {showCustomInput && (
+      {/* custom input popup */}
+      {lastClicked === 'custom' && !customConfirmed && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
           <div className="bg-white rounded-2xl shadow-lg p-6 w-80 flex flex-col items-center space-y-4">
             <input
               type="number"
+              inputMode="numeric"
               value={customValue}
               onChange={(e) => setCustomValue(e.target.value)}
               placeholder="Enter Amount"
-              className="bg-white border-b-2 text-center text-xl outline-none py-2 w-full appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="bg-white border-b-2 text-center text-xl outline-none py-2 w-full appearance-none 
+              [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <button
               onClick={handleConfirm}
