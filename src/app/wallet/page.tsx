@@ -57,7 +57,7 @@ export default function WalletPage() {
       {/* user (borrower) */}
       {role === 'user' && (
         <button
-          onClick={() => router.push('/wallet/topup')}
+          onClick={() => router.push('/wallet/coin')}
           className="flex flex-col items-center transition-transform duration-200"
         >
           <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
@@ -76,7 +76,7 @@ export default function WalletPage() {
       {/* renter */}
       {role === 'renter' && (
         <button
-          onClick={() => router.push('/wallet/cashout')}
+          onClick={() => router.push('/wallet/coin')}
           className="flex flex-col items-center transition-transform duration-200"
         >
           <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
@@ -97,7 +97,7 @@ export default function WalletPage() {
         <div className="flex flex-row gap-12">
           {/* add coin button */}
           <button
-            onClick={() => router.push('/wallet/topup')}
+            onClick={() => router.push('/wallet/coin')}
             className="flex flex-col items-center transition-transform duration-200"
           >
             <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
@@ -113,7 +113,7 @@ export default function WalletPage() {
           </button>
           {/* cash out button */}
           <button
-            onClick={() => router.push('/wallet/cashout')}
+            onClick={() => router.push('/wallet/coin')}
             className="flex flex-col items-center transition-transform duration-200"
           >
             <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
