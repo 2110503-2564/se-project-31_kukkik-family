@@ -37,11 +37,21 @@ export default function WalletPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-black bg-[#FFD8A3] px-2 py-2">
       {/* coin */}
-      <div className="bg-white rounded-3xl shadow-md px-16 py-14 mb-10 text-center">
-        <h1 className="text-7xl font-bold">
-          {coins !== null ? coins.toLocaleString() : 'Loading...'}
-        </h1>
-        <p className="text-2xl mt-2">COINS</p>
+      {/* show coin for user or manage for admin */}
+      <div className="bg-white rounded-3xl shadow-md w-[500px] px-20 py-20 mb-10 text-center">
+        {role === 'admin' ? (
+          <>
+            <h1 className="text-6xl font-bold">Manage</h1>
+            <p className="text-xl mt-2">COINS</p>
+          </>
+        ) : (
+          <>
+            <h1 className="text-7xl font-bold">
+              {coins !== null ? coins.toLocaleString() : 'Loading...'}
+            </h1>
+            <p className="text-2xl mt-2">COINS</p>
+          </>
+        )}
       </div>
 
       {/* user (borrower) */}
