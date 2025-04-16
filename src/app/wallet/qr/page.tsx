@@ -1,9 +1,13 @@
 'use client'
 
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { getQR } from '@/libs/getQR';
+import { redeemCoins } from '@/libs/redeemCoins';
+import { useSearchParams } from 'next/navigation';
+import { QRCodeCanvas } from 'qrcode.react';
+import Image from 'next/image';
 
 export default function QRPage() {
   const router = useRouter();
@@ -13,38 +17,50 @@ export default function QRPage() {
   const [outOfTime, setOutOfTime] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState(5);
   const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
+  const [qrCode, setQRCode] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const amountParam = searchParams.get('amount');
 
-  // redirect if not login
+  // Redirect to login if user is unauthenticated
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login');
     }
   }, [status, router]);
 
-  // show coin
+  // Retrieve coin selection and generate QR code from API
   useEffect(() => {
-    const storedCoin = localStorage.getItem('selectedCoin');
-    if (storedCoin) {
-      setSelectedCoin(parseInt(storedCoin));
-    }
-  }, []);
+    const fetchQRCode = async () => {
+      const coin = amountParam ? parseInt(amountParam) : null;
+      if (coin && session?.user?.token) {
+        setSelectedCoin(coin);
+        try {
+          const code = await getQR(session.user.token, coin);
+          setQRCode(code);
+        } catch (error) {
+          console.error('Failed to get QR code:', error);
+        }
+      }
+    };
 
-  // countdown for 10-minute timer
+    fetchQRCode();
+  }, [session, amountParam]);
+
+  // Countdown for QR validity
   useEffect(() => {
     if (confirming || countdown <= 0) {
       if (countdown <= 0) setOutOfTime(true);
       return;
     }
-  
+
     const timer = setTimeout(() => {
       setCountdown(countdown - 1);
     }, 1000);
-  
+
     return () => clearTimeout(timer);
   }, [countdown, confirming]);
-  
 
-  // handle redirect after 5 seconds on confirm or out of time
+  // Countdown for redirect after confirming or timing out
   useEffect(() => {
     if ((confirming || outOfTime) && redirectCountdown > 0) {
       const timer = setTimeout(() => {
@@ -54,20 +70,27 @@ export default function QRPage() {
     }
 
     if (redirectCountdown === 0) {
-      router.push('/wallet'); // Redirect to wallet page
+      router.push('/wallet');
     }
   }, [confirming, outOfTime, redirectCountdown, router]);
 
-  const handleConfirm = () => {
+  // Handle confirm and redeem coin using QR code
+  const handleConfirm = async () => {
+    if (!qrCode) return;
     setConfirming(true);
-    // TODO: Call updateCoin API here
-    // await fetch('/api/updateCoin', { method: 'POST', body: JSON.stringify({ ... }) });
+    try {
+      await redeemCoins(qrCode);
+    } catch (error) {
+      console.error('Failed to redeem coins:', error);
+    }
   };
 
+  // Cancel and go back to wallet page
   const handleCancel = () => {
     router.push('/wallet');
   };
 
+  // Format countdown to mm:ss
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
       .toString()
@@ -76,33 +99,32 @@ export default function QRPage() {
     return `${mins}:${secs}`;
   };
 
-  // loading session
-  if (status === 'loading' || status === 'unauthenticated') return null
+  // Show nothing if loading or unauthenticated
+  if (status === 'loading' || status === 'unauthenticated') return null;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFD8A3]">
-      {/* QR Code Box */}
+      {/* QR Code Section */}
       <div className="p-6 bg-white rounded-3xl shadow-md">
-        {/* TODO: Replace with API-generated QR */}
-        <Image
-          src="/img/mockqr.png"
-          alt="QR Code"
-          width={200}
-          height={200}
-        />
+        {qrCode ? (
+          <QRCodeCanvas value={qrCode} size={200} />
+        ) : (
+          <p className="text-gray-600">Loading QR...</p>
+        )}
         {selectedCoin !== null && (
           <p className="text-black text-xl text-center font-bold mt-5">
-          {selectedCoin} COINS
+            {selectedCoin} COINS
           </p>
         )}
       </div>
 
+      {/* Countdown timer */}
       <div className="mt-4 text-center">
         <p className="text-gray-500 text-xl">Scheduled Time</p>
         <p className="text-black text-3xl font-bold">{formatTime(countdown)}</p>
       </div>
 
-      {/* Buttons */}
+      {/* Action Buttons */}
       <div className="mt-6 flex gap-4">
         <button
           onClick={handleCancel}
@@ -113,12 +135,13 @@ export default function QRPage() {
         <button
           onClick={handleConfirm}
           className="bg-green-500 text-white font-bold px-6 py-3 rounded-xl shadow active:translate-y-[1px]"
+          disabled={!qrCode}
         >
           CONFIRM
         </button>
       </div>
 
-      {/* Confirm Popup */}
+      {/* Overlay popup on confirm or timeout */}
       {(confirming || outOfTime) && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
           <div className="bg-white p-6 rounded-3xl shadow-lg text-center py-12 w-80">
