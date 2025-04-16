@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 export default function QRPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [countdown, setCountdown] = useState(600); // 10 minutes in seconds
+  const [countdown, setCountdown] = useState(300); // 5 minutes in seconds
   const [confirming, setConfirming] = useState(false);
   const [outOfTime, setOutOfTime] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState(5);
