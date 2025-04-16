@@ -1,14 +1,23 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function CoinPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
   const [customValue, setCustomValue] = useState('');
   const [customConfirmed, setCustomConfirmed] = useState(false);
   const [lastClicked, setLastClicked] = useState<'preset' | 'custom' | null>(null);
+
+  // redirect if not login
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
 
   // coin options
   const coinOptions = [100, 200, 300, 400, 500];
@@ -55,6 +64,9 @@ export default function CoinPage() {
       router.push('/wallet/qr'); // redirect to QR page
     }
   };
+
+  // loading session
+  if (status === 'loading' || status === 'unauthenticated') return null
 
   return (
     <div className="min-h-screen text-black bg-[#FFD8A3] flex flex-col items-center justify-center space-y-6">

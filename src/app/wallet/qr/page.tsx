@@ -1,17 +1,25 @@
-'use client';
+'use client'
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 export default function QRPage() {
   const router = useRouter();
-
-  const [countdown, setCountdown] = useState(60); // 10 minutes in seconds
+  const { data: session, status } = useSession();
+  const [countdown, setCountdown] = useState(600); // 10 minutes in seconds
   const [confirming, setConfirming] = useState(false);
   const [outOfTime, setOutOfTime] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState(5);
   const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
+
+  // redirect if not login
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
 
   // show coin
   useEffect(() => {
@@ -67,6 +75,9 @@ export default function QRPage() {
     const secs = (seconds % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
   };
+
+  // loading session
+  if (status === 'loading' || status === 'unauthenticated') return null
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFD8A3]">

@@ -34,6 +34,9 @@ export default function WalletPage() {
     }
   }, [status, router, session])
 
+  // loading session
+  if (status === 'loading' || status === 'unauthenticated') return null
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-black bg-[#FFD8A3] px-2 py-2">
       {/* coin */}
