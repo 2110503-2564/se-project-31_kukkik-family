@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function QRPage() {
   const router = useRouter();
 
-  const [countdown, setCountdown] = useState(600); // 10 minutes in seconds
+  const [countdown, setCountdown] = useState(60); // 10 minutes in seconds
   const [confirming, setConfirming] = useState(false);
   const [outOfTime, setOutOfTime] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState(5);
@@ -123,7 +123,7 @@ export default function QRPage() {
             </h2>
             <p className="text-gray-600">
               {outOfTime
-                ? 'Please try again'
+                ? `try again in ${redirectCountdown} secs...`
                 : `in ${redirectCountdown} secs...`}
             </p>
           </div>
