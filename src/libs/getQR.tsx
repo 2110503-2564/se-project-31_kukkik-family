@@ -1,5 +1,7 @@
 export const getQR = async (token: string, coin: number) => {
-    const response = await fetch('http://localhost:5000/api/v1/coins/getQR', {
+    // const response = await fetch('http://fe-project-2024-2-rest-in-api.vercel.app/api/v1/coins/getQR', {
+    const response = await fetch('https://api-coin-kukkik.vercel.app/api/v1/coins/getQR', {
+    // const response = await fetch('http://localhost:5000/api/v1/coins/getQR', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -9,10 +11,12 @@ export const getQR = async (token: string, coin: number) => {
     });
   
     if (!response.ok) {
-      throw new Error('Error generating QR code');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error generating QR code');
     }
   
     const data = await response.json();
-    return data.qrCode; // return only the QR code string
+    const fullURL = `https://api-coin-kukkik.vercel.app/api/v1/coins/redeem/${data.qrCode}`;
+    return fullURL;
   };
   

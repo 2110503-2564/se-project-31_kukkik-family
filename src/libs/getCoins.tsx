@@ -1,7 +1,8 @@
 export const getCoins = async (token: string) => {
   // Call the backend API to fetch user's coin balance
   // const response = await fetch('http://fe-project-2024-2-rest-in-api.vercel.app/api/v1/coins', {
-  const response = await fetch('http://localhost:5000/api/v1/coins', {
+  const response = await fetch('https://api-coin-kukkik.vercel.app/api/v1/coins', {
+  // const response = await fetch('http://localhost:5000/api/v1/coins', {
     method: 'GET',
     headers: {
       // Pass the token for authentication
