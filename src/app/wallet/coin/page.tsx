@@ -19,26 +19,22 @@ export default function CoinPage() {
     }
   }, [status, router]);
 
-  // coin options
   const coinOptions = [100, 200, 300, 400, 500];
 
-  // handle coin box click
   const handleCoinSelect = (coin: number) => {
     setSelectedCoin(coin);
     setCustomConfirmed(false);
     setLastClicked('preset');
   };
 
-  // handle custom box click
   const handleCustomClick = () => {
     setCustomValue('');
     setCustomConfirmed(false);
     setLastClicked('custom');
   };
 
-  // handle custom input confirm
   const handleConfirm = () => {
-    const value = parseInt(customValue);
+    const value = parseInt(customValue || '0'); // ✅ ป้องกัน customValue ว่าง
     if (isNaN(value) || value < 100) {
       alert('Please enter at least 100 coins');
       return;
@@ -48,25 +44,16 @@ export default function CoinPage() {
     setLastClicked('custom');
   };
 
-  // handle add coins button click
   const handleAddCoins = () => {
     if (selectedCoin === null) {
       alert('Please select a coin amount');
       return;
     }
-
-    const currentBalance = 99999; // ** will replace with real user coin balance **
-
-    if (selectedCoin > currentBalance) {
-      alert('Not enough balance');
-    } else {
-      localStorage.setItem('selectedCoin', selectedCoin.toString());
-      router.push('/wallet/qr'); // redirect to QR page
-    }
+    
+    router.push(`/wallet/qr?amount=${selectedCoin}`); // ส่งผ่าน query string แทน
   };
 
-  // loading session
-  if (status === 'loading' || status === 'unauthenticated') return null
+  if (status === 'loading' || status === 'unauthenticated') return null;
 
   return (
     <div className="min-h-screen text-black bg-[#FFD8A3] flex flex-col items-center justify-center space-y-6">
@@ -87,7 +74,6 @@ export default function CoinPage() {
         <button
           onClick={() => {
             if (customConfirmed && lastClicked === 'custom') {
-              // re-edit if already confirmed and last clicked was custom
               setCustomConfirmed(false);
               setCustomValue(selectedCoin?.toString() || '');
               setLastClicked('custom');

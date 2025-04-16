@@ -4,13 +4,15 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { getCoins } from '@/libs/getCoins'
 
 export default function WalletPage() {
   const [coins, setCoins] = useState<number | null>(null)
   const router = useRouter()
 
   const { data: session, status } = useSession() 
-  const role = session?.user?.role // user role
+  const role = session?.user?.role // get role from session
+  const token = session?.user?.token || '' // get token from session
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -20,17 +22,23 @@ export default function WalletPage() {
     }
 
     if (status === 'authenticated') {
-      // Mock
-      const mockCoin = 99999
-      setCoins(mockCoin)
+      // call backend to get user coin
+      const fetchCoins = async () => {
+        try {
+          const res = await getCoins(token)
+          if (res && res.coin !== undefined) {
+            setCoins(res.coin)
+          } else {
+            console.error('No coin data found')
+            setCoins(0)
+          }
+        } catch (err) {
+          console.error('Failed to fetch coins:', err)
+          setCoins(0)
+        }
+      }
 
-      // API
-      /*
-      const token = session?.user?.token || ''
-      const userId = session?.user?.id || ''
-      const coinAmount = await getCoin(token, userId)
-      setCoins(coinAmount)
-      */
+      fetchCoins()
     }
   }, [status, router, session])
 
