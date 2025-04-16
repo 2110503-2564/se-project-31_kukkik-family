@@ -46,7 +46,7 @@ export default function CoinPage() {
       return;
     }
 
-    const currentBalance = 500; // ** will replace with real user coin balance **
+    const currentBalance = 99999; // ** will replace with real user coin balance **
 
     if (selectedCoin > currentBalance) {
       alert('Not enough balance');
@@ -62,7 +62,7 @@ export default function CoinPage() {
           <button
             key={coin}
             onClick={() => handleCoinSelect(coin)}
-            className={`w-32 h-24 rounded-xl text-2xl font-bold shadow transition ${
+            className={`w-40 h-28 rounded-xl text-2xl font-bold shadow transition ${
               selectedCoin === coin && lastClicked === 'preset' ? 'bg-gray-300' : 'bg-white'
             }`}
           >
@@ -82,7 +82,7 @@ export default function CoinPage() {
               handleCustomClick();
             }
           }}
-          className={`w-32 h-24 rounded-xl text-2xl font-bold shadow transition ${
+          className={`w-40 h-28 rounded-xl text-2xl font-bold shadow transition ${
             lastClicked === 'custom' && customConfirmed ? 'bg-gray-300' : 'bg-white'
           }`}
         >
