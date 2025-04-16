@@ -51,6 +51,7 @@ export default function CoinPage() {
     if (selectedCoin > currentBalance) {
       alert('Not enough balance');
     } else {
+      localStorage.setItem('selectedCoin', selectedCoin.toString());
       router.push('/wallet/qr'); // redirect to QR page
     }
   };

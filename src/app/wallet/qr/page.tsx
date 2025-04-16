@@ -11,8 +11,16 @@ export default function QRPage() {
   const [confirming, setConfirming] = useState(false);
   const [outOfTime, setOutOfTime] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState(5);
+  const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
 
-  // countdown for 10-minute timer
+  // show coin
+  useEffect(() => {
+    const storedCoin = localStorage.getItem('selectedCoin');
+    if (storedCoin) {
+      setSelectedCoin(parseInt(storedCoin));
+    }
+  }, []);
+
   // countdown for 10-minute timer
   useEffect(() => {
     if (confirming || countdown <= 0) {
@@ -71,6 +79,11 @@ export default function QRPage() {
           width={200}
           height={200}
         />
+        {selectedCoin !== null && (
+          <p className="text-black text-xl text-center font-bold mt-5">
+          {selectedCoin} COINS
+          </p>
+        )}
       </div>
 
       <div className="mt-4 text-center">
