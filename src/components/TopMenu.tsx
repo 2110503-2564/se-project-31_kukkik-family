@@ -25,33 +25,44 @@ export default function TopMenu() {
                 </Link>
             </div>
             <div className="flex items-center space-x-4 absolute right-0 h-full px-8">
-                        <Link href='/cars' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/cars' ? styles.active : ''}`}>
-                            Products
-                        </Link>
-                {session ? (
-                    <>
-                        <Link href='/booking' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/booking' ? styles.active : ''}`}>
-                            Book
-                        </Link>
-                        <Link href='/mybooking' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/mybooking' ? styles.active : ''}`}>
-                            All Bookings
-                        </Link>
+                        {
+                            session?.user?.role === 'renter'?(
                         <Link href="/api/auth/signout" prefetch={true} className={styles.itemcontainer}>
                             Sign-Out of {session.user?.name}
                         </Link>
-                    </>
-                ) : (
-                        <>
-                        
-                            <Link href="/api/auth/signin" prefetch={true} className={`${styles.itemcontainer} ${pathname === '/login' ? styles.active : ''}`}>
-                                Sign-In
-                            </Link>
-                            <Link href="/register" prefetch={true} className={`${styles.itemcontainer} ${pathname === '/register' ? styles.active : ''}`}>
-                                Sign-Up
-                            </Link>
-                        
+                            ):(
+                                <>
+                                <Link href='/cars' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/cars' ? styles.active : ''}`}>
+                                    Products
+                                </Link>
+        
+                        {session ? (
+                            <>
+                                <Link href='/booking' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/booking' ? styles.active : ''}`}>
+                                    Book
+                                </Link>
+                                <Link href='/mybooking' prefetch={true} className={`${styles.itemcontainer} ${pathname === '/mybooking' ? styles.active : ''}`}>
+                                    All Bookings
+                                </Link>
+                                <Link href="/api/auth/signout" prefetch={true} className={styles.itemcontainer}>
+                                    Sign-Out of {session.user?.name}
+                                </Link>
+                            </>
+                        ) : (
+                                <>
+                                
+                                    <Link href="/api/auth/signin" prefetch={true} className={`${styles.itemcontainer} ${pathname === '/login' ? styles.active : ''}`}>
+                                        Sign-In
+                                    </Link>
+                                    <Link href="/register" prefetch={true} className={`${styles.itemcontainer} ${pathname === '/register' ? styles.active : ''}`}>
+                                        Sign-Up
+                                    </Link>
+                                
+                                </>
+                        )}
                         </>
-                )}
+                            )
+                        }
             </div>
         </div>
     );
