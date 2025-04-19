@@ -7,14 +7,15 @@ import { getQR } from '@/libs/getQR';
 import { useSearchParams } from 'next/navigation';
 import { QRCodeCanvas } from 'qrcode.react';
 import Image from 'next/image';
+import { redeemCoins } from '@/libs/redeemCoins';
 
 export default function QRPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [countdown, setCountdown] = useState(5); // count down QR code 5 mins
+  const [countdown, setCountdown] = useState(30); // count down QR code 5 mins
   const [confirmed, setConfirmed] = useState(false); // confirm button
   const [outOfTime, setOutOfTime] = useState(false); // out of time
-  const [redirectCountdown, setRedirectCountdown] = useState(5); // count down pop up 5 secs
+  const [redirectCountdown, setRedirectCountdown] = useState(30); // count down pop up 5 secs
   const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
   const [qrCode, setQRCode] = useState<string | null>(null);
 
@@ -84,6 +85,26 @@ export default function QRPage() {
     setCountdown(0);
     setOutOfTime(false);
   };
+
+  //check qr code valid
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        console.log(qrCode + ' this is Qr'); // replace with your actual API
+        //const data = await res.json();
+        //console.log('Checked API:', data);
+
+        // if (data.status === 'done') {
+        //   clearInterval(interval); // stop checking
+        //   router.push('/done-page');
+        // }
+      } catch (err) {
+        console.error('Error fetching status', err);
+      }
+    }, 1000); // poll every 2 seconds
+
+    return () => clearInterval(interval); // cleanup on unmount
+  }, [router]);
 
   const handleCancel = () => {
     router.push('/wallet');
