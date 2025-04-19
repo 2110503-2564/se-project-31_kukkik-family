@@ -6,8 +6,8 @@ import { useSession } from 'next-auth/react';
 import { getQR } from '@/libs/getQR';
 import { useSearchParams } from 'next/navigation';
 import { QRCodeCanvas } from 'qrcode.react';
+import { redeemStatus } from '@/libs/redeemStatus';
 import Image from 'next/image';
-import { redeemCoins } from '@/libs/redeemCoins';
 
 export default function QRPage() {
   const router = useRouter();
@@ -15,9 +15,10 @@ export default function QRPage() {
   const [countdown, setCountdown] = useState(30); // count down QR code 5 mins
   const [confirmed, setConfirmed] = useState(false); // confirm button
   const [outOfTime, setOutOfTime] = useState(false); // out of time
-  const [redirectCountdown, setRedirectCountdown] = useState(30); // count down pop up 5 secs
+  const [redirectCountdown, setRedirectCountdown] = useState(5); // count down pop up 5 secs
   const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
   const [qrCode, setQRCode] = useState<string | null>(null);
+  const [codeUrl, setCodeUrl] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const amountParam = searchParams.get('amount');
@@ -38,6 +39,7 @@ export default function QRPage() {
         try {
           const code = await getQR(session.user.token, coin);
           setQRCode(code);
+          setCodeUrl( code );
         } catch (error) {
           console.error('Failed to get QR code:', error);
         }
@@ -90,21 +92,33 @@ export default function QRPage() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        console.log(qrCode + ' this is Qr'); // replace with your actual API
+        // console.log( qrCode );
+        // console.log( codeUrl );
+
+        const code = codeUrl?.split('/').pop() || '';
+        if (!code) return console.warn('Invalid codeUrl');
+        //console.log(code);
+        const data = await redeemStatus( code );
+        //console.log( data.status );
+        if( data.status === 'invalid')
+        {
+          handleConfirm();
+        }
+        
         //const data = await res.json();
         //console.log('Checked API:', data);
 
         // if (data.status === 'done') {
         //   clearInterval(interval); // stop checking
         //   router.push('/done-page');
-        // }
-      } catch (err) {
-        console.error('Error fetching status', err);
+        // }333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333222222222222222222222222222233333us', err);
+      }
+      catch(err){
+        console.log(err);
       }
     }, 1000); // poll every 2 seconds
-
     return () => clearInterval(interval); // cleanup on unmount
-  }, [router]);
+  }, [codeUrl, router, qrCode]);
 
   const handleCancel = () => {
     router.push('/wallet');
@@ -148,12 +162,12 @@ export default function QRPage() {
         >
           CANCEL
         </button>
-        <button
+        {/*<button
           onClick={handleConfirm}
           className="bg-green-600 text-white font-bold px-6 py-3 rounded-xl shadow active:translate-y-[1px]"
         >
           CONFIRM
-        </button>
+        </button> */}
       </div>
 
       {/* overlay popup */}
