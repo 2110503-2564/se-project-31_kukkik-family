@@ -27,7 +27,7 @@ export default function OrderList() {
     const fetchOrders = async () => {
       const token = localStorage.getItem("token");
   
-      const res = await fetch("https://se-project-backend-31-kukkik-family.vercel.app//api/v1/bookings", {
+      const res = await fetch("https://se-project-backend-31-kukkik-family.vercel.app/api/v1/bookings", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
