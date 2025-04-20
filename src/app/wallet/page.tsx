@@ -14,6 +14,14 @@ export default function WalletPage() {
   const role = session?.user?.role // get role from session
   const token = session?.user?.token || '' // get token from session
 
+  const routeAddCoins = () => {
+    router.push('/wallet/coin?keyword=add');
+  };
+
+  const routeDeductCoins = () => {
+    router.push('/wallet/coin?keyword=deduct');
+  };
+
   useEffect(() => {
     if (status === 'unauthenticated') {
       // not login -> redirect to login page
@@ -65,10 +73,10 @@ export default function WalletPage() {
         )}
       </div>
 
-      {/* user (borrower) */}
+      {/* user (borrower)  onClick={() => router.push('/wallet/coin')} */}
       {role === 'user' && (
         <button
-          onClick={() => router.push('/wallet/coin')}
+          onClick={routeAddCoins}
           className="flex flex-col items-center transition-transform duration-200"
         >
           <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
@@ -84,10 +92,10 @@ export default function WalletPage() {
         </button>
       )}
 
-      {/* renter */}
+      {/* renter () => router.push('/wallet/coin') */}
       {role === 'renter' && (
         <button
-          onClick={() => router.push('/wallet/coin')}
+          onClick={routeDeductCoins}
           className="flex flex-col items-center transition-transform duration-200"
         >
           <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
@@ -103,12 +111,12 @@ export default function WalletPage() {
         </button>
       )}
 
-      {/* admin */}
+      {/* admin () => router.push('/wallet/coin')*/}
       {role === 'admin' && (
         <div className="flex flex-row gap-12">
           {/* add coin button */}
           <button
-            onClick={() => router.push('/wallet/coin')}
+            onClick={routeAddCoins}
             className="flex flex-col items-center transition-transform duration-200"
           >
             <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
@@ -122,9 +130,9 @@ export default function WalletPage() {
             </div>
             <p className="font-bold mt-3">ADD COINS</p>
           </button>
-          {/* cash out button */}
+          {/* cash out button () => router.push('/wallet/coin')*/}
           <button
-            onClick={() => router.push('/wallet/coin')}
+            onClick={routeDeductCoins}
             className="flex flex-col items-center transition-transform duration-200"
           >
             <div className="rounded-full shadow-lg overflow-hidden w-24 h-24">
