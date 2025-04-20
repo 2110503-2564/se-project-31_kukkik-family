@@ -36,15 +36,6 @@ export default function TopMenu() {
         {session?.user?.role === "renter" ? (
           <>
             <Link
-              href="/wallet"
-              prefetch={true}
-              className={`${styles.itemcontainer} ${
-                pathname === "/wallet" ? styles.active : ""
-              }`}
-            >
-              Wallet
-            </Link>
-            <Link
               href="/api/auth/signout"
               prefetch={true}
               className={styles.itemcontainer}
@@ -66,6 +57,14 @@ export default function TopMenu() {
 
             {session ? (
               <>
+                <Link
+                  href="/wallet"
+                  prefetch={true}
+                  className={`${styles.itemcontainer} ${pathname === "/wallet" ? styles.active : ""
+                    }`}
+                >
+                  Wallet
+                </Link>
                 <Link
                   href="/booking"
                   prefetch={true}
