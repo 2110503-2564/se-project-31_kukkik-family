@@ -13,7 +13,7 @@ export default async function carDetailPage({ params }: { params: { cid: string 
                 </h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* ภาพรถ */}
+                    {/* car picture */}
                     <div className="flex justify-center">
                         <Image
                             src={carDetail.data.picture}
@@ -24,6 +24,7 @@ export default async function carDetailPage({ params }: { params: { cid: string 
                     </div>
 
                     <div className="text-left space-y-3 text-gray-700">
+                        {/* car detail */}
                         <p className="text-lg font-medium text-gray-900">📌 Name: {carDetail.data.name}</p>
                         <p>🏠 Address: {carDetail.data.address}</p>
                         <p>📍 District: {carDetail.data.district}</p>
