@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { deductCoins } from '@/libs/deductCoins';
+import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 export default function CoinPage() {
   const router = useRouter();
@@ -11,6 +14,12 @@ export default function CoinPage() {
   const [customValue, setCustomValue] = useState('');
   const [customConfirmed, setCustomConfirmed] = useState(false);
   const [lastClicked, setLastClicked] = useState<'preset' | 'custom' | null>(null);
+  const [redirectCountdown, setRedirectCountdown] = useState(5);
+  const [deductComplete , setDeductComplete] = useState(false);
+  const role = session?.user?.role // get role from session
+
+  const searchParams = useSearchParams();
+  const keyword = searchParams.get('keyword');
 
   // redirect if not login
   useEffect(() => {
@@ -26,6 +35,8 @@ export default function CoinPage() {
     setCustomConfirmed(false);
     setLastClicked('preset');
   };
+
+  
 
   const handleCustomClick = () => {
     setCustomValue('');
@@ -51,6 +62,34 @@ export default function CoinPage() {
     }
     
     router.push(`/wallet/qr?amount=${selectedCoin}`); // ส่งผ่าน query string แทน
+  };
+  // redirect countdown after confirm or timeout
+  useEffect(() => {
+    if (deductComplete && redirectCountdown > 0) {
+      const timer = setTimeout(() => {
+        setRedirectCountdown((prev) => prev - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+
+    if (redirectCountdown === 0) {
+      router.push('/wallet');
+    }
+  }, [ redirectCountdown, router , deductComplete]);
+
+  const handleCashOut = async () =>{
+    if (selectedCoin === null) {
+      alert('Please select a coin amount');
+      return;
+    }
+
+    const data = await deductCoins( session?.user.token || "" , selectedCoin );
+    if( data )
+    {
+      setDeductComplete(true);
+      console.log( data );
+    }
+
   };
 
   if (status === 'loading' || status === 'unauthenticated') return null;
@@ -117,13 +156,42 @@ export default function CoinPage() {
           </div>
         </div>
       )}
+      {keyword == "deduct" && (
+        <button
+          onClick={handleCashOut}
+          className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-xl text-xl font-semibold shadow"
+        >
+          Cash Out
+        </button>
+      )}
+      {keyword == "add" && (
+        <button
+          onClick={handleAddCoins}
+          className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-xl text-xl font-semibold shadow"
+        >
+          ADD COINS
+        </button>
+        
+      )}
 
-      <button
-        onClick={handleAddCoins}
-        className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-xl text-xl font-semibold shadow"
-      >
-        ADD COINS
-      </button>
+      { deductComplete && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
+          <div className="bg-white p-6 rounded-3xl shadow-lg text-center py-12 w-80">
+            <Image
+              src={'/img/true.png'}
+              alt="Status Icon"
+              width={120}
+              height={120}
+              className="mx-auto pb-5"
+            />
+            <h2 className="text-3xl font-bold text-black pb-1">
+              Cash Out Complete
+            </h2>
+            <p className="text-gray-600">Redirecting in {redirectCountdown} secs...</p>
+          </div>
+        </div>
+      )}
+      
     </div>
   );
 }
