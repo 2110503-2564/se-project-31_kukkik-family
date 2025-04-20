@@ -8,11 +8,11 @@ type Order = {
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "Delivering":
+    case "received":
       return "text-yellow-500";
-    case "Available":
+    case "returned":
       return "text-green-500";
-    case "Rented":
+    case "rented":
       return "text-red-500";
     default:
       return "text-gray-500";
@@ -22,11 +22,12 @@ const getStatusColor = (status: string) => {
 export default function OrderList() {
   const [orders, setOrders] = useState<Order[]>([]);
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchOrders = async () => {
       const token = session?.user?.token;
 
-      const res = await fetch("http://localhost:5000/api/v1/bookings/renter/rentals", {
+      const res = await fetch("https://se-project-backend-31-kukkik-family.vercel.app/api/v1/bookings/renter/rentals", {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,  // ส่ง Token ใน Header
@@ -35,6 +36,7 @@ export default function OrderList() {
 
       const json = await res.json();
       if (json.success) {
+        setLoading(false);
         setOrders(json.data);
         console.log(orders)
       } else {
@@ -48,17 +50,19 @@ export default function OrderList() {
 
   return (
     <div className="h-[40vh] w-[30vw] bg-cyan-300 rounded-md shadow-md p-5 overflow-y-auto">
-      <h2 className="text-lg font-bold mb-3">Order List:</h2>
-
+      <h2 className="text-lg font-bold mb-1">Order List:</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
         <ul className="space-y-1">
           {orders.map((order, index) => (
             <li key={index}>
-              <span className="font-semibold">{order.id}</span> :{" "}
+              <span >{order._id}</span> : {" "}
               <span className={getStatusColor(order.status)}>{order.status}</span>
             </li>
           ))}
         </ul>
-
+      )}
     </div>
   );
 }
