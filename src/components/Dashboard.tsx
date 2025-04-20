@@ -6,7 +6,7 @@ import AllTimeIncome from "./AllTimeIncome"
 export default function Dashboard(){
     const router = useRouter();
     return (
-            <div className="w-[100%] h-[90%] grid grid-rows-[auto_1fr_auto] grid-cols-2 gap-4 bg-white p-5 space-y-10">
+            <div className="w-[100%] h-[90%] bg-[#FFE5B4] grid grid-rows-[auto_1fr_auto] grid-cols-2 gap-4 p-5 space-y-10">
 
                 <div className="col-span-2 flex justify-center">
                     <ProfileCard />

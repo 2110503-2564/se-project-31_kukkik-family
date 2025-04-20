@@ -8,7 +8,7 @@ export default function Home() {
   const { data: session } = useSession();
 
   return (
-    <main>
+    <main className="bg-[#FFE5B4]">
       {
       session?.user?.role === 'renter'?(
         <Dashboard/>
