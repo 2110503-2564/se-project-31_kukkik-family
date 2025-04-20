@@ -1,5 +1,6 @@
-// components/OrderList.tsx
+"use client";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 type Order = {
   id: string;
@@ -20,30 +21,53 @@ const getStatusColor = (status: string) => {
 };
 
 export default function OrderList() {
+  const { data: session, status } = useSession();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token");
+
   useEffect(() => {
+    console.log("Session:", session);
+  console.log("Status:", status);
     const fetchOrders = async () => {
-      const token = localStorage.getItem("token");
-  
-      const res = await fetch("https://se-project-backend-31-kukkik-family.vercel.app//api/v1/bookings", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      const json = await res.json();
-      if (json.success) {
-        setOrders(json.data); 
-      } else {
-        console.error("Failed to fetch bookings:", json.message);
+      try {
+        const token = session?.user?.token;
+        const renterId = session?.user?._id;
+
+        console.log("Token from session:", token);
+    console.log("Renter ID from session:", renterId);
+
+        if ( !renterId) {
+          console.warn("Missing token or renterId from session");
+          return;
+        }
+
+        const url = `https://localhost:5000/api/v1/bookings/renter/${renterId}/rentals`;
+
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const json = await res.json();
+        console.log("Fetched bookings data:", json);
+
+        if (json.success) {
+          setOrders(json.data);
+        } else {
+          console.error("Failed to fetch bookings:", json.message);
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+      } finally {
+        setLoading(false);
       }
     };
-  
-    fetchOrders();
-  }, []);
-  
+
+    if (status === "authenticated") {
+      fetchOrders();
+    }
+  }, [session, status]);
 
   return (
     <div className="h-[40vh] w-[30vw] bg-cyan-300 rounded-md shadow-md p-5 overflow-y-auto">
