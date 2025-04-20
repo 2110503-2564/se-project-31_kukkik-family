@@ -12,7 +12,10 @@ export default function Venue() {
 
     useEffect(() => {
         const fetchData = async () => {
+            // เตรียม string สำหรับเก็บ query URL
             let url = "";
+
+            // ดึงค่าต่าง ๆ จาก searchParams
             let minprice = searchParams.get('minprice');
             let maxprice = searchParams.get('maxprice');
             let minseat = searchParams.get('minseat');
@@ -25,6 +28,7 @@ export default function Venue() {
             let limit = searchParams.get('limit');
             let price = searchParams.get('price');
 
+            // ต่อ query string หากค่าต่าง ๆ ไม่ว่างเปล่า
             if(minprice != "" && minprice != null){
                 url += `minprice=${minprice}&`;
             }
@@ -59,6 +63,7 @@ export default function Venue() {
                 url += `price=${price}&`;
             }
             
+            // ดึงข้อมูลจาก backend และอัปเดต state
             const providers = await getCarProviders(url);
             setCarProviders(providers);
         };

@@ -171,7 +171,8 @@ const makeBooking = async (): Promise<boolean> => {
             const bookingSuccess = await makeBooking();
           
             const token = session?.user?.token;
-          
+            
+            //หักเงิน
             if (bookingSuccess && token && dailyRate !== null) {
               try {
                 await deductCoins(token, dailyRate);
