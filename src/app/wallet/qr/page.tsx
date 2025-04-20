@@ -12,7 +12,7 @@ import Image from 'next/image';
 export default function QRPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [countdown, setCountdown] = useState(30); // count down QR code 5 mins
+  const [countdown, setCountdown] = useState(15); // count down QR code 5 mins
   const [confirmed, setConfirmed] = useState(false); // confirm button
   const [outOfTime, setOutOfTime] = useState(false); // out of time
   const [redirectCountdown, setRedirectCountdown] = useState(5); // count down pop up 5 secs
