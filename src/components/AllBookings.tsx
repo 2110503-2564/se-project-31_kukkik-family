@@ -163,14 +163,14 @@ const AllBookings = () => {
             
             <p className="text-gray-700">Booking Status: {booking.status}</p>
 
-            <button className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 hover:shadow-lg transition duration-300 ease-in-out my-3 mx-1"
+            <button className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 hover:shadow-lg transition duration-300 ease-in-out my-3 mx-1 items-center justify-center"
               onClick={async () => {
                 await deleteBookings(token, booking._id); // Call API
                 setBookings(bookings.filter((b) => b._id !== booking._id)); // Remove from UI
               }}>
               Remove
             </button>
-            <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg focus:ring-2 focus:ring-blue-300 transition duration-300 ease-in-out my-3 mx-1"
+            <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg focus:ring-2 focus:ring-blue-300 transition duration-300 ease-in-out my-3 mx-1 items-center justify-center"
               onClick={() => {
                 setSelectedBooking(booking);
                 setUpdatedStartDate(booking.startDate);
@@ -180,14 +180,14 @@ const AllBookings = () => {
             </button>
             {/* Add received and return buttons */}
             { booking.status === "rented" && booking.user === session?.user.user_id && (
-              <button className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:shadow-lg focus:ring-2 focus:ring-green-300 transition duration-300 ease-in-out my-3 mx-1"
+              <button className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:shadow-lg focus:ring-2 focus:ring-green-300 transition duration-300 ease-in-out my-3 mx-1 items-center justify-center"
                 onClick={() => handleStatusChange(booking, "received")}>
                 Received
               </button>
             )}
 
             {booking.status === "received" && booking.user === session?.user.user_id && (
-              <button className="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 hover:shadow-lg focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out my-3 mx-1"
+              <button className="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 hover:shadow-lg focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out my-3 mx-1 items-center justify-center"
                 onClick={() => handleStatusChange(booking, "returned")}>
                 Return
               </button>
