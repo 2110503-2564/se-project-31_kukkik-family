@@ -5,12 +5,16 @@ import { getTopSale } from '@/libs/getTopSale';
 import { getCoins } from '@/libs/getCoins';
 
 const AllTimeIncomeComponent: React.FC = () => {
+  type TopSale = {
+    id: string;
+    name: string;
+  };
   const { data: session } = useSession();
   const token = session?.user?.token;
   const [loading, setLoading] = useState(true);
   const [coins, setCoins] = useState(0);
 
-  const [topsales, setTopsales] = useState<BookingData[]>([]);
+  const [topsales, setTopsales] = useState<TopSale[]>([]);
   const [totalSales, setTotalSales] = useState(0);
 
   useEffect(() => {

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 type Order = {
-  id: string;
+  _id: string;
   status: string;
 };
 
