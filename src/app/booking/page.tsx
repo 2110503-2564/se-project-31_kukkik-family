@@ -11,6 +11,8 @@ import { Dayjs } from "dayjs";
 import { createBooking } from "@/libs/createBooking";
 import { useSession } from "next-auth/react";
 import getCarProviders from "@/libs/getCarProviders";
+import getCarProvider from "@/libs/getCarProvider";
+import { deductCoins } from "@/libs/deductCoins";
 
 // booking page
 export default function Booking() {
@@ -23,6 +25,7 @@ export default function Booking() {
   const { data: session } = useSession(); // Move useSession here
 
   const [carId, setCarId] = useState<string | null>(initialCarId);
+  const [dailyRate, setDailyRate] = useState<number | null>(null);
   const [carProviders, setCarProviders] = useState<any[]>([]);
   const [name, setName] = useState<string>("");
   const [contactNumber, setContactNumber] = useState<string>("");
@@ -57,58 +60,82 @@ useEffect(() => {
   fetchCarProviders();
 }, []);  // ทำแค่ครั้งแรกเมื่อ component โหลด
 
-
-  const makeBooking = async () => {
-    if (pickupDate && returnDate && carId) {
-      const bookingData = {
-        startDate: pickupDate.format("YYYY-MM-DD"),
-        endDate: returnDate.format("YYYY-MM-DD"),
-      };
-
-      const token = session?.user?.token;
-
-      if (!token) {
-        setSnackbarMessage("Please login first.");
-        setSnackbarSeverity("error");
-        setOpenSnackbar(true);
-        return;
-      }
-
+useEffect(() => {
+  const fetchCarDetails = async () => {
+    if (carId) {
       try {
-        const response = await createBooking(token, carId, bookingData);
-  
-        if (response.success) {
-          // Save booking in Redux
-          dispatch(addBooking(response));
-  
-          setSnackbarMessage("Booking successful!");
-          setSnackbarSeverity("success");
-          setOpenSnackbar(true);
+        const result = await getCarProvider(carId);
+        console.log("Car provider result:", result);
+
+        const rate = result?.data?.dailyrate;
+        console.log("Daily rate:", rate);
+        if (typeof rate === "number") {
+          setDailyRate(rate);
         } else {
-          // If response.success is false, handle it here (this might be the case)
-          setSnackbarMessage("Booking failed. Please try again.");
-          setSnackbarSeverity("error");
-          setOpenSnackbar(true);
+          setDailyRate(null);
+          console.warn("Invalid daily rate:", rate);
         }
-      } catch (error: any) {
-        console.error("Error booking car:", error);
-  
-        // Log the error to see the full response from the backend
-        if (error.message.includes("has already booked 3 cars")) {
-          setSnackbarMessage("You have already booked 3 cars.");
-        } else {
-          setSnackbarMessage(error.message || "Booking failed. Please try again.");
-        }
-  
-        setSnackbarSeverity("error");
-        setOpenSnackbar(true);
+      } catch (error) {
+        console.error("Error fetching car provider details:", error);
+        setDailyRate(null);
       }
-    } else {
-      setSnackbarMessage("Please fill in all the fields.");
-      setSnackbarSeverity("error");
-      setOpenSnackbar(true);
     }
   };
+
+  fetchCarDetails(); 
+}, [carId]); 
+
+const makeBooking = async (): Promise<boolean> => {
+  if (pickupDate && returnDate && carId) {
+    const bookingData = {
+      startDate: pickupDate.format("YYYY-MM-DD"),
+      endDate: returnDate.format("YYYY-MM-DD"),
+    };
+
+    const token = session?.user?.token;
+
+    if (!token) {
+      setSnackbarMessage("Please login first.");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+      return false;
+    }
+
+    try {
+      const response = await createBooking(token, carId, bookingData);
+
+      if (response.success) {
+        dispatch(addBooking(response));
+        setSnackbarMessage("Booking successful!");
+        setSnackbarSeverity("success");
+        setOpenSnackbar(true);
+        return true;
+      } else {
+        setSnackbarMessage("Booking failed. Please try again.");
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);
+        return false;
+      }
+    } catch (error: any) {
+      console.error("Error booking car:", error);
+
+      if (error.message.includes("has already booked 3 cars")) {
+        setSnackbarMessage("You have already booked 3 cars.");
+      } else {
+        setSnackbarMessage(error.message || "Booking failed. Please try again.");
+      }
+
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+      return false;
+    }
+  } else {
+    setSnackbarMessage("Please fill in all the fields.");
+    setSnackbarSeverity("error");
+    setOpenSnackbar(true);
+    return false;
+  }
+};
 
   return (
     <main className="flex flex-col items-center space-y-4 py-20 bg-[#FFD8A3] min-h-[90vh]">
@@ -140,9 +167,20 @@ useEffect(() => {
           type="submit"
           name="Book Car"
           className="w-full rounded-md bg-sky-600 text-white py-2 mt-4 hover:bg-sky-700 transition"
-          onClick={() => {
-            makeBooking();
-          }}
+          onClick={async () => {
+            const bookingSuccess = await makeBooking();
+          
+            const token = session?.user?.token;
+          
+            if (bookingSuccess && token && dailyRate !== null) {
+              try {
+                await deductCoins(token, dailyRate);
+                console.log("Coins deducted:", dailyRate);
+              } catch (error) {
+                console.error("Error during coin deduction:", error);
+              }
+            }
+          }}          
         >
           Book Car
         </Button>
