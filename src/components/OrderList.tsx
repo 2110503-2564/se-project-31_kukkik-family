@@ -29,6 +29,7 @@ export default function OrderList() {
     console.log("Session:", session);
   console.log("Status:", status);
     const fetchOrders = async () => {
+<<<<<<< HEAD
       try {
         const token = session?.user?.token;
         const renterId = session?.user?._id;
@@ -61,6 +62,35 @@ export default function OrderList() {
         console.error("Fetch error:", err);
       } finally {
         setLoading(false);
+||||||| 41a5e6e
+      const token = localStorage.getItem("token");
+  
+      const res = await fetch("https://se-project-backend-31-kukkik-family.vercel.app//api/v1/bookings", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const json = await res.json();
+      if (json.success) {
+        setOrders(json.data); 
+      } else {
+        console.error("Failed to fetch bookings:", json.message);
+=======
+      const token = localStorage.getItem("token");
+  
+      const res = await fetch("https://se-project-backend-31-kukkik-family.vercel.app/api/v1/bookings", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const json = await res.json();
+      if (json.success) {
+        setOrders(json.data); 
+      } else {
+        console.error("Failed to fetch bookings:", json.message);
+>>>>>>> 351cee92822f9732551898280b14e32d0d096d0c
       }
     };
 
