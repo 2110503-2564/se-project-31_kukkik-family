@@ -49,7 +49,7 @@ export default function OrderList() {
 
 
   return (
-    <div className="h-[40vh] w-[30vw] bg-cyan-300 rounded-md shadow-md p-5 overflow-y-auto">
+    <div className="h-[40vh] w-[30vw] bg-white rounded-[20px] shadow-md p-6 w-[400px] text-black p-5 overflow-y-auto">
       <h2 className="text-lg font-bold mb-1">Order List:</h2>
       {loading ? (
         <p>Loading...</p>

@@ -14,14 +14,19 @@ export default function ProfileCard() {
 
   return (
     <div className="w-[500px] h-[5vh]">
-      <h1 style={{
-        fontSize: "2rem",
-        fontWeight: "bold",
-        textAlign:"center",
-        color: "#000",
-      }}>
-        {session?.user?.name || "Loading..."}
-      </h1>
-    </div>
+  <style jsx>{`
+    @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap');
+  `}</style>
+  <h1 style={{
+    fontSize: "2rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#000",
+    fontFamily: "'Chakra Petch', sans-serif"
+  }}>
+    {session?.user?.name || "Loading..."}
+  </h1>
+</div>
+
   );
 }
