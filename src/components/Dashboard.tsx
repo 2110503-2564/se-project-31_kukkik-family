@@ -1,6 +1,7 @@
 import OrderList from "./OrderList";
 import ProfileCard from "./ProfileCard";
 import { useRouter } from "next/navigation";
+import AllTimeIncome from "./AllTimeIncome"
 
 export default function Dashboard(){
     const router = useRouter();
@@ -10,9 +11,9 @@ export default function Dashboard(){
                 <div className="col-span-2 flex justify-center">
                     <ProfileCard />
                 </div>
-            <div className="col-span-2 flex justify-center space-x-5">
-                    <div className="h-[40vh] w-[50vw] bg-yellow-300 rounded-md shadow-md"></div>
-                    <OrderList />
+                <div className="col-span-2 flex justify-center space-x-5">
+                <AllTimeIncome />
+                <OrderList />
                 </div>
                 <div className="col-span-2 flex justify-center ">
                     <div className="w-[300px] h-[10vh] bg-lime-300 rounded-md shadow-md flex items-center justify-center cursor-pointer hover:bg-lime-400 transition-colors duration-200"
