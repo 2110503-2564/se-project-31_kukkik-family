@@ -52,7 +52,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-cover bg-center px-10 " style={{ backgroundImage: "url('/img/carbg.jpg')" }}>
-      <div className="bg-gray-200">
+      <div className="bg-gray-200 rounded-lg bg-opacity-70">
         <div className="w-full max-w-lg p-8">
           <h1 className="text-4xl font-bold mb-4 text-[#5C4590]">Create new account</h1>
           {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -66,6 +66,9 @@ export default function RegisterPage() {
           
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
+              <label htmlFor="Role" className="block text-sm font-medium text-gray-700">Register As</label>
+              <input type="radio" name="role" id="user" /><label htmlFor="Role"> User </label>
+              <input type="radio" name="role" id="renter" /><label htmlFor="Role"> Renter </label>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
               <input
                 id="name"
