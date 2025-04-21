@@ -88,7 +88,7 @@ export default function AddCarProviderPage() {
   };
 
   return (
-    <main className="flex justify-center py-10 bg-[#FFEBD6] min-h-screen">
+    <main className="flex justify-center py-10 bg-[#FFD8A3] min-h-screen">
       {/* Add car provider form */}
       <AddCarProviderForm
         form={form}
