@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button } from "@mui/material";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -10,10 +11,11 @@ export default function RegisterPage() {
     tel: "",
     email: "",
     password: "",
-    role: "user" // default role
+    role: "" 
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isRenter , setIsRenter] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +23,8 @@ export default function RegisterPage() {
     setIsLoading(true);
     
     try {
-      const res = await fetch("https://fe-project-2024-2-rest-in-api.vercel.app/api/v1/auth/register", {
+      const res = await fetch("https://api-coin-kukkik.vercel.app/api/v1/auth/register", {
+      //const res = await fetch('http://localhost:5000/api/v1/auth/register', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,11 +68,35 @@ export default function RegisterPage() {
           </p>
           
           <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="flex items-center space-x-6 mb-4">
+            <label htmlFor="user" className="inline-flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="role" // ← FIXED
+                id="user"
+                value="user" // ← FIXED
+                onClick={()=> setIsRenter(false)}
+                onChange={handleChange}
+
+                className="form-radio text-blue-600 h-4 w-4"
+              />
+              <span className="ml-2 text-gray-700">User</span>
+            </label>
+
+            <label htmlFor="renter" className="inline-flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="role" // ← FIXED
+                id="renter"
+                value="renter" // ← FIXED
+                onClick={()=> setIsRenter(true)}
+                onChange={handleChange}
+                className="form-radio text-blue-600 h-4 w-4"
+              />
+              <span className="ml-2 text-gray-700">Renter</span>
+            </label>
+            </div>
             <div>
-              <label htmlFor="Role" className="block text-sm font-medium text-gray-700">Register As</label>
-              <input type="radio" name="role" id="user" /><label htmlFor="Role"> User </label>
-              <input type="radio" name="role" id="renter" /><label htmlFor="Role"> Renter </label>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
               <input
                 id="name"
                 name="name"
@@ -120,13 +147,25 @@ export default function RegisterPage() {
                 className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className={`w-1/3 p-3 rounded-3xl text-white ${isLoading ? "bg-gray-400" : "bg-[#FE7F3F] hover:bg-[#FF5F0E] transition duration-200"}`}
-            >
-              {isLoading ? "Registering..." : "Register"}
-            </button>
+            <>{/* for implement upload profile  can change every thing*/}</>
+            <div className="flex justify-center">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2 ">
+                Profile Pic
+              </button>
+                {isRenter && (
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2  ">Id card</button>
+                )}
+            </div>
+            <div className="flex justify-center">
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className={`w-1/3 p-3 rounded-3xl text-white ${isLoading ? "bg-gray-400" : "bg-[#FE7F3F] hover:bg-[#FF5F0E] transition duration-200"}`}
+              >
+                {isLoading ? "Registering..." : "Register"}
+              </button>
+            </div>
+            
           </form>
         </div>
       </div>
