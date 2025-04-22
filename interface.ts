@@ -38,4 +38,17 @@ interface CarProvider {
     count: number;
     data: BookingData[];
   }
+
+  interface User {
+    _id: string;
+    name: string;
+    tel: string;
+    email: string;
+  }
+
+  interface UserJson {
+    success: boolean;
+    count: number;
+    data: User[];
+  }
   
