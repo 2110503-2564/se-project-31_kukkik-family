@@ -11,7 +11,9 @@ export default function RegisterPage() {
     tel: "",
     email: "",
     password: "",
-    role: "" 
+    role: "",
+    picture: "",
+    pictureIdCard: ""
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,13 +25,18 @@ export default function RegisterPage() {
     setIsLoading(true);
     
     try {
+      const dataToSend = { ...formData } as any;
+      if (!isRenter) {
+        delete dataToSend.pictureIdCard;
+      }
+
       const res = await fetch("https://api-coin-kukkik.vercel.app/api/v1/auth/register", {
-      //const res = await fetch('http://localhost:5000/api/v1/auth/register', {
+      // const res = await fetch('http://localhost:5000/api/v1/auth/register', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSend),
       });
 
       if (!res.ok) {
@@ -53,6 +60,42 @@ export default function RegisterPage() {
     }));
   };
 
+  {/* Handle image file upload and convert to base64 */}
+  const [imageUploaded, setImageUploaded] = useState(false);
+  const [idCardUploaded, setIdCardUploaded] = useState(false);
+  const [uploadKey, setUploadKey] = useState(Date.now());
+
+  const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
+    setFormData(prev => ({ ...prev, picture: "" }));
+    setImageUploaded(false);
+    setIdCardUploaded(false);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({ ...prev, picture: reader.result as string }));
+      setImageUploaded(true);
+      setUploadKey(Date.now());
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleIdCardUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({ ...prev, pictureIdCard: reader.result as string }));
+      setIdCardUploaded(true);
+      setUploadKey(Date.now());
+    };
+    reader.readAsDataURL(file);
+  };
+  
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-cover bg-center px-10 " style={{ backgroundImage: "url('/img/carbg.jpg')" }}>
       <div className="bg-gray-200 rounded-lg bg-opacity-70">
@@ -76,7 +119,7 @@ export default function RegisterPage() {
                 id="user"
                 value="user" // ← FIXED
                 onClick={()=> setIsRenter(false)}
-                onChange={handleChange}
+                onChange={handleRoleChange}
 
                 className="form-radio text-blue-600 h-4 w-4"
               />
@@ -90,7 +133,7 @@ export default function RegisterPage() {
                 id="renter"
                 value="renter" // ← FIXED
                 onClick={()=> setIsRenter(true)}
-                onChange={handleChange}
+                onChange={handleRoleChange}
                 className="form-radio text-blue-600 h-4 w-4"
               />
               <span className="ml-2 text-gray-700">Renter</span>
@@ -147,15 +190,42 @@ export default function RegisterPage() {
                 className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
-            <>{/* for implement upload profile  can change every thing*/}</>
+            {/* Handle image */}
             <div className="flex justify-center">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2 ">
+              <label htmlFor="picture-upload" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2 cursor-pointer">
                 Profile Pic
-              </button>
-                {isRenter && (
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2  ">Id card</button>
-                )}
+              </label>
+              <input
+                key={uploadKey}
+                type="file"
+                id="picture-upload"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              {isRenter && (
+                <>
+                  <label htmlFor="idcard-upload" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2 cursor-pointer">
+                    Id card
+                  </label>
+                  <input
+                    key={uploadKey}
+                    type="file"
+                    id="idcard-upload"
+                    accept="image/*"
+                    onChange={handleIdCardUpload}
+                    className="hidden"
+                  />
+                </>
+              )}
             </div>
+            {(imageUploaded || idCardUploaded) && (
+              <div className="text-center text-sm  text-green-600 font-medium">
+                {imageUploaded && <p>Profile picture uploaded successfully</p>}
+                {isRenter && idCardUploaded && <p>ID card uploaded successfully</p>}
+              </div>
+            )}
+
             <div className="flex justify-center">
               <button 
                 type="submit" 
