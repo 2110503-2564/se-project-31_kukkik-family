@@ -1,3 +1,5 @@
+"use client";
+
 // components/RenterCard.tsx
 import React from 'react';
 
@@ -21,10 +23,10 @@ const RenterCard: React.FC<RenterCardProps> = ({
   onDeny,
 }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-md p-4 w-80 text-center">
-      <h2 className="text-xl font-bold mb-2">{name}</h2>
-      <p><strong>tel.</strong> : {tel}</p>
-      <p className="mb-4"><strong>email</strong> : {email}</p>
+    <div className="bg-white rounded-2xl shadow-md p-4 w-30 text-center">
+      <h2 className="text-xl font-bold mb-2 text-black">{name}</h2>
+      <p className="text-black"><strong className="text-black">tel.</strong> : {tel}</p>
+      <p className="mb-4 text-black"><strong>email</strong> : {email}</p>
 
       <div className="flex justify-center gap-4 mb-4">
         <div>
