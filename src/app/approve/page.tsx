@@ -1,19 +1,32 @@
-"use client"
+"use client";
+import { useEffect, useState, Suspense } from "react";
+import getRenterRequests from "@/libs/getPendingRenters";
+import RenterCatalog from "@/components/RenterCatalog";
+import { LinearProgress } from "@mui/material";
+import { useSession } from 'next-auth/react';
 
-import RenterCard from "@/components/RenterCard"
+export default function RenterPage() {
+  const [renterList, setRenterList] = useState(null);
+  const { data: session} = useSession();
+  if(session == null)return;
+  useEffect(() => {
+    const fetchRenters = async () => {
+      const data = await getRenterRequests(session.user.token);
+      setRenterList(data);
+    };
+    fetchRenters();
+  }, []);
 
-export default function ApprovePage(){
-    return (
-        <main>
-            <RenterCard
-                name="John Doe"
-                tel="081-234-5678"
-                email="john.doe@example.com"
-                selfieImageUrl="/uploads/selfie-john.jpg"
-                idCardImageUrl="/uploads/id-john.jpg"
-                onApprove={() => console.log('Approved')}
-                onDeny={() => console.log('Denied')}
-            />
-        </main>
-    )
+  return (
+    <main className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Renter Requests</h1>
+      <Suspense fallback={<LinearProgress />}>
+        {renterList ? (
+          <RenterCatalog RenterDataJson={renterList} />
+        ) : (
+          <p>No renter data available</p>
+        )}
+      </Suspense>
+    </main>
+  );
 }
