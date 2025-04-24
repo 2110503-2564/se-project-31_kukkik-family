@@ -55,8 +55,10 @@ export default function Profile() {
 
 import { useRouter } from "next/navigation";
 
-export default async function Profile({UserJson}: {UserJson: Promise<UserJson>;}) {
-    const UserJsonReady = await UserJson;
+import  CarRenterCard  from "./CarRenterCard";
+
+export default async function Profile({CarProviderJson}: {CarProviderJson: Promise<CarProviderJson>;}) {
+    const CarProviderJsonReady = await CarProviderJson;
     const router = useRouter();
     return (
         <main className="min-h-screen bg-[#FFE5B4] flex flex-col items-center justify-center p-6 space-y-6">
@@ -67,8 +69,20 @@ export default async function Profile({UserJson}: {UserJson: Promise<UserJson>;}
                 <div>email. : </div>
             </div>
 
-            <div className="bg-grey rounded-2xl shadow-lg p-6 w-[90%] max-w-md text-lg space-y-2 text-center">
-                {/*ใส่ 3 product card รถ 3 คัน*/}
+            <div className="flex flex-row flex-wrap justify-center gap-6 bg-grey rounded-2xl shadow-lg p-6 w-[90%] max-w-5xl">
+              
+            {CarProviderJsonReady.data.map((data: CarProvider) => (
+          <CarRenterCard
+            key={data.id}
+            carId={data.id}
+            carName={data.name}
+            imgSrc={data.picture}
+            price={data.dailyrate}
+            seat={data.seat}
+            like={data.like}
+            province={data.province}
+          />
+        ))}
             </div>
         </main>
     );
