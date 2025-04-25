@@ -40,10 +40,13 @@ interface CarProvider {
   }
 
   interface RenterCardProps {
+    id: string;
     name: string;
     tel: string;
     email: string;
     selfiePicture?: string;
     idCardPicture?: string;
+    onApprove?: () => void;
+    onDeny?: () => void;
   }
   

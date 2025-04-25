@@ -7,6 +7,8 @@ const RenterCard: React.FC<RenterCardProps> = ({
   email,
   selfiePicture,
   idCardPicture,
+  onApprove,
+  onDeny,
 }) => {
   return (
     <div className="bg-white rounded-2xl shadow-md p-4 w-80 text-center">
@@ -33,7 +35,7 @@ const RenterCard: React.FC<RenterCardProps> = ({
         </div>
       </div>
 
-      {/* <div className="flex justify-center gap-4">
+       <div className="flex justify-center gap-4">
         <button
           onClick={onDeny}
           className="bg-red-600 text-white px-4 py-2 rounded-full shadow"
@@ -46,7 +48,7 @@ const RenterCard: React.FC<RenterCardProps> = ({
         >
           APPROVE
         </button>
-      </div> */}
+      </div> 
     </div>
   );
 };
