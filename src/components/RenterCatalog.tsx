@@ -6,7 +6,7 @@ export default async function RenterCatalog({ RenterDataJson }: { RenterDataJson
   const { data: session } = useSession();
   const handleApprove = async (id: string) => {
     try {
-      const res = await fetch(`/api/v1/users/renter-requests/${id}`, {
+      const res = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/users/renter-requests/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export default async function RenterCatalog({ RenterDataJson }: { RenterDataJson
 
   const handleDeny = async (id: string) => {
     try {
-      const res = await fetch(`/api/v1/users/renter-requests/${id}`, {
+      const res = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/users/renter-requests/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
