@@ -3,22 +3,12 @@
 // components/RenterCard.tsx
 import React from 'react';
 
-interface RenterCardProps {
-  name: string;
-  tel: string;
-  email: string;
-  selfieImageUrl?: string;
-  idCardImageUrl?: string;
-  onApprove: () => void;
-  onDeny: () => void;
-}
-
 const RenterCard: React.FC<RenterCardProps> = ({
   name,
   tel,
   email,
-  selfieImageUrl,
-  idCardImageUrl,
+  selfiePicture,
+  idCardPicture,
   onApprove,
   onDeny,
 }) => {
@@ -31,7 +21,7 @@ const RenterCard: React.FC<RenterCardProps> = ({
       <div className="flex justify-center gap-4 mb-4">
         <div>
           <img
-            src={selfieImageUrl || 'https://via.placeholder.com/80'}
+            src={selfiePicture || 'https://via.placeholder.com/80'}
             alt="Selfie"
             className="w-20 h-20 rounded bg-gray-200 object-cover mx-auto"
           />
@@ -39,7 +29,7 @@ const RenterCard: React.FC<RenterCardProps> = ({
         </div>
         <div>
           <img
-            src={idCardImageUrl || 'https://via.placeholder.com/80'}
+            src={idCardPicture || 'https://via.placeholder.com/80'}
             alt="ID Card"
             className="w-20 h-20 rounded bg-gray-200 object-cover mx-auto"
           />
@@ -47,7 +37,7 @@ const RenterCard: React.FC<RenterCardProps> = ({
         </div>
       </div>
 
-      <div className="flex justify-center gap-4">
+       <div className="flex justify-center gap-4">
         <button
           onClick={onDeny}
           className="bg-red-600 text-white px-4 py-2 rounded-full shadow"
@@ -60,7 +50,7 @@ const RenterCard: React.FC<RenterCardProps> = ({
         >
           APPROVE
         </button>
-      </div>
+      </div> 
     </div>
   );
 };
