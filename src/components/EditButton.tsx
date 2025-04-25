@@ -20,7 +20,7 @@ export default function EditButton() {
           <TextField
             autoFocus
             margin="dense"
-            label="Name"
+            label="Name :"
             type="text"
             fullWidth
             variant="standard"
@@ -28,7 +28,15 @@ export default function EditButton() {
           />
           <TextField
             margin="dense"
-            label="Email"
+            label="tel. :"
+            type="text"
+            fullWidth
+            variant="standard"
+            defaultValue="tel."
+          />
+          <TextField
+            margin="dense"
+            label="Email : "
             type="email"
             fullWidth
             variant="standard"
@@ -37,7 +45,14 @@ export default function EditButton() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} variant="contained">Save</Button>
+          <Button onClick={handleClose} variant="contained"
+              sx={{
+              bgcolor: 'limegreen',
+              color: 'white',
+              '&:hover': {
+                bgcolor: 'green',
+              },
+            }}>Save</Button>
         </DialogActions>
       </Dialog>
     </div>
