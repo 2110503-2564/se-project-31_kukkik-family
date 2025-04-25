@@ -39,6 +39,18 @@ interface CarProvider {
     data: BookingData[];
   }
 
+  interface RenterCardProps {
+    id: string;
+    name: string;
+    tel: string;
+    email: string;
+    selfiePicture?: string;
+    idCardPicture?: string;
+    onApprove?: () => void;
+    onDeny?: () => void;
+  }
+  
+
   interface User {
     _id: string;
     name: string;
