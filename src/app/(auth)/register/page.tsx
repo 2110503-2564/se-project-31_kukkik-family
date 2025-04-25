@@ -29,9 +29,10 @@ export default function RegisterPage() {
       if (!isRenter) {
         delete dataToSend.pictureIdCard;
       }
+      console.log( dataToSend );
 
       const res = await fetch("https://api-coin-kukkik.vercel.app/api/v1/auth/register", {
-      // const res = await fetch('http://localhost:5000/api/v1/auth/register', {
+      //const res = await fetch('http://localhost:5000/api/v1/auth/register', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -130,8 +131,8 @@ export default function RegisterPage() {
               <input
                 type="radio"
                 name="role" // ← FIXED
-                id="renter"
-                value="renter" // ← FIXED
+                id="pending-renter"
+                value="pending-renter" // ← FIXED
                 onClick={()=> setIsRenter(true)}
                 onChange={handleRoleChange}
                 className="form-radio text-blue-600 h-4 w-4"
