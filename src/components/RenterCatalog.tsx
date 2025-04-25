@@ -52,7 +52,8 @@ export default async function RenterCatalog({ RenterDataJson }: { RenterDataJson
   return (
     <>
     <div className="flex items-center justify-between mb-6">
-      <div className="text-sm text-gray-500 bg-gray-50 px-4 py-2 rounded-full">
+      <h1 className="text-2xl font-bold mb-4 flex">Renter Requests</h1>
+      <div className="text-sm text-gray-500 bg-gray-50 px-4 py-2 rounded-full flex">
         {RenterDataReady.count} pending renter(s) found
       </div>
     </div>
