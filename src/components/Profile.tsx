@@ -57,32 +57,36 @@ import { useRouter } from "next/navigation";
 
 import  CarRenterCard  from "./CarRenterCard";
 
-export default async function Profile({CarProviderJson}: {CarProviderJson: Promise<CarProviderJson>;}) {
-    const CarProviderJsonReady = await CarProviderJson;
-    const router = useRouter();
+interface ProfileProps {
+  user: User;
+  bookedCars: CarProvider[];
+}
+
+export default async function Profile({ user, bookedCars }: ProfileProps) {
+ 
     return (
         <main className="min-h-screen bg-[#FFE5B4] flex flex-col items-center justify-center p-6 space-y-6">
-            <div className="text-2xl font-semibold">{/*ใส่ชื่อ user; get name */}</div>
+            <div className="text-2xl font-semibold">{/*ใส่ชื่อ user; get name */} {user.name}</div>
    
             <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-md text-lg space-y-2 text-center">
-                <div>tel. : </div>
-                <div>email. : </div>
+                <div><strong>tel.</strong> : {user.tel}</div>
+                <div><strong>email</strong> : {user.email}</div>
             </div>
 
             <div className="flex flex-row flex-wrap justify-center gap-6 bg-grey rounded-2xl shadow-lg p-6 w-[90%] max-w-5xl">
-              
-            {CarProviderJsonReady.data.map((data: CarProvider) => (
+            {bookedCars.map((car) => (
           <CarRenterCard
-            key={data.id}
-            carId={data.id}
-            carName={data.name}
-            imgSrc={data.picture}
-            price={data.dailyrate}
-            seat={data.seat}
-            like={data.like}
-            province={data.province}
+            key={car.id}
+            carId={car.id}
+            carName={car.name}
+            imgSrc={car.picture}
+            price={car.dailyrate}
+            seat={car.seat}
+            like={car.like}
+            province={car.province}
           />
         ))}
+            
             </div>
         </main>
     );
