@@ -1,3 +1,5 @@
+"use client"
+
 import Image from 'next/image';
 import InteractiveCard from './InteractiveCard';
 import {useState, useEffect} from 'react';
