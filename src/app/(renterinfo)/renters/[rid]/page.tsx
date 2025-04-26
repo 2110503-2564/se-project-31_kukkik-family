@@ -11,9 +11,9 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
     method: 'GET'
   });
 
-  if (!res.ok) {
+  /* if (!res.ok) {
     throw new Error("Failed to fetch booked cars for this renter");
-  }
+  } */
 
   const bookingRes = await res.json();
   const bookedCars: CarProvider[] = bookingRes.data;
