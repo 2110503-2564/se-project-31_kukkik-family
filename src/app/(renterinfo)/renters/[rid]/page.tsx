@@ -22,11 +22,16 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
 
   return (
     <div className="p-6 bg-[#FFE5B4] flex flex-col justify-center items-center gap-6">
-      <div className="text-2xl font-bold">{bookingRes.name}</div>
-      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-4">
-        <div>tel. : {bookingRes.tel}</div>
-        <div>email : {bookingRes.email}</div>
+      <div className="text-5xl font-bold">{bookingRes.name}</div>
+      <div className="bg-white text-2xl py-8 px-20 rounded-lg shadow-md flex flex-col gap-4 w-fit">
+        <div>
+          <span className="font-bold">tel. :</span> {bookingRes.tel}
+        </div>
+        <div>
+          <span className="font-bold">email :</span> {bookingRes.email}
+        </div>
       </div>
+
 
 
 
