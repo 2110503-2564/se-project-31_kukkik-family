@@ -36,6 +36,13 @@ export default function TopMenu() {
         {session?.user?.role === "renter" ? (
           <>
             <Link
+              href="/renters"
+              prefetch={true}
+              className={styles.itemcontainer}
+            >
+              Profile
+            </Link>
+            <Link
               href="/api/auth/signout"
               prefetch={true}
               className={styles.itemcontainer}
