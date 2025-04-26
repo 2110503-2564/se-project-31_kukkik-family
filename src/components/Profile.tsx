@@ -62,7 +62,7 @@ interface ProfileProps {
   bookedCars: CarProvider[];
 }
 
-export default async function Profile({ user, bookedCars }: ProfileProps) {
+export default async function Profile({ user }: ProfileProps) {
  
     return (
         <main className="min-h-screen bg-[#FFE5B4] flex flex-col items-center justify-center p-6 space-y-6">
@@ -74,18 +74,7 @@ export default async function Profile({ user, bookedCars }: ProfileProps) {
             </div>
 
             <div className="flex flex-row flex-wrap justify-center gap-6 bg-grey rounded-2xl shadow-lg p-6 w-[90%] max-w-5xl">
-            {bookedCars.map((car) => (
-          <CarRenterCard
-            key={car.id}
-            carId={car.id}
-            carName={car.name}
-            imgSrc={car.picture}
-            price={car.dailyrate}
-            seat={car.seat}
-            like={car.like}
-            province={car.province}
-          />
-        ))}
+            
             
             </div>
         </main>

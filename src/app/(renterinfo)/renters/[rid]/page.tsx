@@ -1,32 +1,47 @@
 /// <reference path="../../../../../interface.ts" />
 import Profile from "@/components/Profile";
-import getCarProviders from "@/libs/getCarProviders";
-import getUserProfile from "@/libs/getUserProfile";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
 import { redirect } from "next/navigation";
+import CarRenterCard from "@/components/CarRenterCard";
 
 export default async function RenterProfilePage({ params }: { params: { rid: string } }) {
-
   const session = await getServerSession(authOptions);
   const token = session?.user?.token;
+  const renterId = session?.user?._id;
 
-  // ถ้าไม่มี token redirect ไป login
   if (!token) redirect("/signin");
 
-  const [userJson, carJson] = await Promise.all([
-    getUserProfile(token),
-    getCarProviders(""), 
-  ]);
+  const res = await fetch(`http://localhost:5000/api/bookings/renter/${renterId}/rentals`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    cache: "no-store",
+  });
 
-  const user: User = userJson.data;
-  const allCars: CarProvider[] = carJson.data;
+  if (!res.ok) {
+    throw new Error("Failed to fetch booked cars for this renter");
+  }
 
-  const bookedCars = allCars.filter((car) =>
-    car.booking.some((b) => b.user === params.rid)
-  );
+  const bookingRes = await res.json();
+  const bookedCars: CarProvider[] = bookingRes.data;
 
   return (
-    <Profile user={user} bookedCars={bookedCars} />
+    <div className="p-6 flex flex-wrap justify-center gap-6">
+      {bookedCars.map((car) => (
+        <CarRenterCard
+          key={car.id}
+          carId={car.id}
+          carName={car.name}
+          imgSrc={car.picture}
+          price={car.dailyrate}
+          seat={car.seat}
+          like={car.like}
+          province={car.province}
+        />
+      ))}
+    </div>
   );
 }
+

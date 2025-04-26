@@ -7,22 +7,15 @@ import { useSession } from 'next-auth/react';
 
 import { Snackbar, Alert } from '@mui/material';
 
-export default function CarRenterCard({carId, carName, imgSrc, price, seat, like, province}
-                            :{carId:string, carName:string, imgSrc:string, price:number, seat:number, like:number, province:string}) {
-
-    const { data: session } = useSession();
-    const token = session?.user?.token;
-
-    // Snackbar state
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'info' | 'warning' | 'error'>('info');
-
-    
-    return (
-        <>
-        <InteractiveCard>
-            <div className='w-full h-[70%] relative rounded-t-lg'>
+export default function CarRenterCard({
+  carId, carName, imgSrc, price, seat, like, province
+}: {
+  carId: string, carName: string, imgSrc: string, price: number,
+  seat: number, like: number, province: string
+}) {
+  return (
+    <InteractiveCard>
+      <div className='w-full h-[70%] relative rounded-t-lg'>
                 <Image 
                     src={imgSrc}
                     alt={carName}
@@ -42,18 +35,6 @@ export default function CarRenterCard({carId, carName, imgSrc, price, seat, like
                 
                 </div>
             </div>
-        </InteractiveCard>
-
-        {/* Snackbar for friendly alert messages */}
-      <Snackbar
-      open={openSnackbar}
-      autoHideDuration={6000}
-      onClose={() => setOpenSnackbar(false)}
-    >
-      <Alert onClose={() => setOpenSnackbar(false)} severity={snackbarSeverity} sx={{ width: "100%" }}>
-        {snackbarMessage}
-      </Alert>
-    </Snackbar>
-  </>
-    );
+    </InteractiveCard>
+  );
 }
