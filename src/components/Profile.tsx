@@ -57,7 +57,7 @@ import { useRouter } from "next/navigation";
 
 import  CarRenterCard  from "./CarRenterCard";
 
-interface ProfileProps {
+/* interface ProfileProps {
   user: User;
   bookedCars: CarProvider[];
 }
@@ -66,9 +66,9 @@ export default async function Profile({ user }: ProfileProps) {
  
     return (
         <main className="min-h-screen bg-[#FFE5B4] flex flex-col items-center justify-center p-6 space-y-6">
-            <div className="text-2xl font-semibold">{/*ใส่ชื่อ user; get name */} {user.name}</div>
+            <div className="text-2xl font-semibold">{/*ใส่ชื่อ user; get name *//* } {user.name}</div> */
    
-            <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-md text-lg space-y-2 text-center">
+/*             <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-md text-lg space-y-2 text-center">
                 <div><strong>tel.</strong> : {user.tel}</div>
                 <div><strong>email</strong> : {user.email}</div>
             </div>
@@ -79,4 +79,36 @@ export default async function Profile({ user }: ProfileProps) {
             </div>
         </main>
     );
+} */
+
+
+/// <reference path="../../../../../interface.ts" />
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
+import { redirect } from "next/navigation";
+
+export default async function Profile({ params }: { params: { rid: string } }) {
+  const session = await getServerSession(authOptions);
+  const token = session?.user?.token;
+  const renterId = session?.user?._id;
+
+  if (!token) redirect("/signin");
+
+  const res = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/carProviders/renter/${params.rid}`, {
+    method: 'GET'
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data for this renter");
+  }
+
+  const profileData = await res.json();
+
+  return (
+    <div className="p-6 flex flex-wrap justify-center gap-6">
+      tel. : {profileData.tel}
+      email : {profileData.email}
+    </div>
+  );
 }
+
