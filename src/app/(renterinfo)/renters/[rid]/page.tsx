@@ -3,7 +3,7 @@ import Profile from "@/components/Profile";
 import getCarProviders from "@/libs/getCarProviders";
 import getUserProfile from "@/libs/getUserProfile";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // ตรวจสอบว่าไฟล์นี้มีอยู่หรือ path ถูก
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
 import { redirect } from "next/navigation";
 
 export default async function RenterProfilePage({ params }: { params: { rid: string } }) {
