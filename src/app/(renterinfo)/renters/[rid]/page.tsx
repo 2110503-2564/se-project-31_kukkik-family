@@ -12,12 +12,8 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
 
   if (!token) redirect("/signin");
 
-  const res = await fetch(`http://localhost:5000/api/bookings/renter/${renterId}/rentals`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    },
-    cache: "no-store",
+  const res = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/carProviders/renter/${params.rid}`, {
+    method: 'GET'
   });
 
   if (!res.ok) {

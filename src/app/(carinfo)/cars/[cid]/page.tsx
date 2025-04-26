@@ -40,7 +40,7 @@ export default async function carDetailPage({ params }: { params: { cid: string 
                                 </button>
                             </Link>
                             <Link href={`/renters/${carDetail.data.renter}`}>
-                                <button className="w-full px-4 py-3 text-white bg-[#FF69B4] hover:bg-[#FFC0CB] rounded-lg shadow-md transition duration-300">
+                                <button className="w-full px-4 py-3 text-white bg-[#FF69B4] hover:bg-[#FFC0CB] rounded-lg shadow-md transition duration-300 mt-2">
                                     View Renter's profile
                                 </button>
                             </Link>
