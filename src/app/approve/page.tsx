@@ -18,8 +18,7 @@ export default function RenterPage() {
   }, []);
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Renter Requests</h1>
+    <main className="p-6 bg-[#FFD8A3] min-h-[90vh]">
       <Suspense fallback={<LinearProgress />}>
         {renterList ? (
           <RenterCatalog RenterDataJson={renterList} />
