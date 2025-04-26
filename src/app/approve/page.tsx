@@ -21,7 +21,7 @@ export default function RenterPage() {
     <main className="p-6 bg-[#FFD8A3] min-h-[90vh]">
       <Suspense fallback={<LinearProgress />}>
         {renterList ? (
-          <RenterCatalog RenterDataJson={renterList} />
+          <RenterCatalog renterData={renterList} />
         ) : (
           <p>No renter data available</p>
         )}
