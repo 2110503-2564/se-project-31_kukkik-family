@@ -12,7 +12,7 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
 
   if (!token) redirect("/signin");
 
-  const res = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/carProviders/renter/${params.rid}`, {
+  const res = await fetch(`http://localhost:5000/api/v1/carProviders/renter/${params.rid}`, {
     method: 'GET'
   });
 
@@ -23,10 +23,16 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
   const bookingRes = await res.json();
   const bookedCars: CarProvider[] = bookingRes.data;
 
+  console.log(bookingRes)
+
   return (
-    <div className="p-6 flex flex-wrap justify-center gap-6">
+    <div className="p-6 bg-[#FFE5B4] flex flex-wrap justify-center gap-6">
       {bookingRes.name}
-      
+
+      {bookingRes.tel}
+
+      {bookingRes.email}
+
       {bookedCars.map((car) => (
         <CarRenterCard
           key={car.id}
