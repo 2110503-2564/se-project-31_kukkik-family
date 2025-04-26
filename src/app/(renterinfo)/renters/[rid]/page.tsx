@@ -25,6 +25,8 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
 
   return (
     <div className="p-6 flex flex-wrap justify-center gap-6">
+      {bookingRes.name}
+      
       {bookedCars.map((car) => (
         <CarRenterCard
           key={car.id}
