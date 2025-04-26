@@ -57,6 +57,9 @@ export default function TopMenu() {
 
             {session ? (
               <>
+
+              {
+                  session?.user?.role !== "admin" ?(
                 <Link
                   href="/wallet"
                   prefetch={true}
@@ -65,6 +68,21 @@ export default function TopMenu() {
                 >
                   Wallet
                 </Link>
+
+                  ):(
+                        <Link
+                          href="/approve"
+                          prefetch={true}
+                          className={`${styles.itemcontainer} ${pathname === "/approve" ? styles.active : ""
+                            }`}
+                        >
+                          Approve
+                        </Link>
+                  )
+              }
+
+
+
                 <Link
                   href="/booking"
                   prefetch={true}
