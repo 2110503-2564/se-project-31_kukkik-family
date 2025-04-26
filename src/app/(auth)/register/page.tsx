@@ -12,8 +12,8 @@ export default function RegisterPage() {
     email: "",
     password: "",
     role: "",
-    picture: "",
-    pictureIdCard: ""
+    selfiePicture: "",
+    idCardPicture: ""
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +31,8 @@ export default function RegisterPage() {
       }
       console.log( dataToSend );
 
-      const res = await fetch("https://api-coin-kukkik.vercel.app/api/v1/auth/register", {
-      //const res = await fetch('http://localhost:5000/api/v1/auth/register', {
+      // const res = await fetch("https://api-coin-kukkik.vercel.app/api/v1/auth/register", {
+      const res = await fetch('http://localhost:5000/api/v1/auth/register', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export default function RegisterPage() {
     if (!file) return;
     const reader = new FileReader();
     reader.onloadend = () => {
-      setFormData(prev => ({ ...prev, picture: reader.result as string }));
+      setFormData(prev => ({ ...prev, selfiePicture: reader.result as string }));
       setImageUploaded(true);
       setUploadKey(Date.now());
     };
@@ -90,7 +90,7 @@ export default function RegisterPage() {
     if (!file) return;
     const reader = new FileReader();
     reader.onloadend = () => {
-      setFormData(prev => ({ ...prev, pictureIdCard: reader.result as string }));
+      setFormData(prev => ({ ...prev, idCardPicture: reader.result as string }));
       setIdCardUploaded(true);
       setUploadKey(Date.now());
     };
