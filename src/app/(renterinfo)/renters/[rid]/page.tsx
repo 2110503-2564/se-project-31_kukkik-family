@@ -22,9 +22,12 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
 
   return (
     <div className="p-6 bg-[#FFE5B4] flex flex-wrap justify-center gap-6">
-      <div>{bookingRes.name}</div>
-      <div>{bookingRes.tel}</div>
-      <div>{bookingRes.email}</div>
+      <div className="flex flex-col gap-2">
+        <div>{bookingRes.name}</div>
+        <div>{bookingRes.tel}</div>
+        <div>{bookingRes.email}</div>
+      </div>
+
 
       {bookedCars.map((car) => (
         <CarRenterCard
