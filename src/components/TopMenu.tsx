@@ -38,7 +38,8 @@ export default function TopMenu() {
             <Link
               href="/renters"
               prefetch={true}
-              className={styles.itemcontainer}
+              className={`${styles.itemcontainer} ${pathname === "/renters" ? styles.active : ""
+                }`}
             >
               Profile
             </Link>
