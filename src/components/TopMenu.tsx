@@ -36,7 +36,7 @@ export default function TopMenu() {
         {session?.user?.role === "renter" ? (
           <>
             <Link
-              href="/renter/addrentalcar"
+              href="/renters/addrentalcar"
               prefetch={true}
               className={`${styles.itemcontainer} ${
                 pathname === "/renter/addrentalcar" ? styles.active : ""
