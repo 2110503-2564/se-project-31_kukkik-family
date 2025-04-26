@@ -14,6 +14,7 @@ export default function CarRenterCard({
   seat: number, like: number, province: string
 }) {
   return (
+    <div className='w-[250px] flex flex-row flex-wrap'>
     <InteractiveCard>
       <div className='w-full h-[70%] relative rounded-t-lg'>
                 <Image 
@@ -36,5 +37,6 @@ export default function CarRenterCard({
                 </div>
             </div>
     </InteractiveCard>
+    </div>
   );
 }

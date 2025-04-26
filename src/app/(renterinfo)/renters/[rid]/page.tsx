@@ -18,8 +18,6 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
   const bookingRes = await res.json();
   const bookedCars: CarProvider[] = bookingRes.data;
 
-  console.log(bookingRes)
-
   return (
     <div className="p-6 bg-[#FFE5B4] flex flex-col justify-center items-center gap-6">
       <div className="text-5xl font-bold">{bookingRes.name}</div>
