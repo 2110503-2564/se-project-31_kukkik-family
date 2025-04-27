@@ -18,7 +18,7 @@ export default function RenterCatalog({ renterData: initialData }: { renterData:
 
   const handleAction = async (id: string, action: "accept" | "deny") => {
     try {
-      const res = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/users/renter-requests/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/users/renter-requests/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

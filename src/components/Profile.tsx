@@ -94,7 +94,7 @@ export default async function Profile({ params }: { params: { rid: string } }) {
 
   if (!token) redirect("/signin");
 
-  const res = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/carProviders/renter/${params.rid}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/carProviders/renter/${params.rid}`, {
     method: 'GET'
   });
 

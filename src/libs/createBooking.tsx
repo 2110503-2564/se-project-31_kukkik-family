@@ -1,6 +1,6 @@
 // libs/createBooking.js
 export const createBooking = async (token: string, carId: string, bookingData: any) => {
-  const response = await fetch(`https://fe-project-2024-2-rest-in-api.vercel.app/api/v1/carProviders/${carId}/bookings`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/carProviders/${carId}/bookings`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`, // ส่ง Token ใน Header

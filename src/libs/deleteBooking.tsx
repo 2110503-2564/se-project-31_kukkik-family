@@ -1,7 +1,7 @@
 // libs/getBookings.js
 export const deleteBookings = async (token:string,bid:string) => {
     
-    const response = await fetch(`https://fe-project-2024-2-rest-in-api.vercel.app/api/v1/bookings/${bid}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/bookings/${bid}`, {
         
         method: 'DELETE',
         headers: {
