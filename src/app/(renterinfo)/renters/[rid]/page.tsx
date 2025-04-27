@@ -35,7 +35,7 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
         </div>
         
         {
-          session?.user?.role === "renter"?(
+          session?.user?.user_id == params.rid?(
           <div className="absolute bottom-4 right-4">
             <EditButton/>
           </div>
