@@ -5,9 +5,9 @@ import {AiOutlineHeart} from 'react-icons/ai';
 import { useSession } from 'next-auth/react';
 import likeCar from '@/libs/likeCar';
 import { Snackbar, Alert } from '@mui/material';
-
-export default function Card({carId, carName, imgSrc, price, seat, like, province}
-                            :{carId:string, carName:string, imgSrc:string, price:number, seat:number, like:number, province:string}) {
+import Link from "next/link";
+export default function Card({carId, carName, imgSrc, price, seat, like, province, renter}
+                            :{carId:string, carName:string, imgSrc:string, price:number, seat:number, like:number, province:string, renter:string}) {
 
     const { data: session } = useSession();
     const token = session?.user?.token;
@@ -72,18 +72,23 @@ export default function Card({carId, carName, imgSrc, price, seat, like, provinc
             <div className='w-full h-[30%] p-2 text-center text-lg font-semibold text-black flex flex-col justify-center items-center'>
                 <div>{carName}</div>
                 <div className='flex flex-row items-center gap-x-4'>
-                    <p className="text-sm text-gray-400">{seat} seats</p>
-                    <p className="text-sm text-gray-400">{province}</p>
+                    <p className="text-sm text-gray-500">{seat} seats</p>
+                    <p className="text-sm text-gray-500">{province}</p>
+                    <div onClick={(e) => { e.stopPropagation(); handleLike(e); }} className="text-2xl flex flex-row items-center">
+                        <p className="text-sm text-gray-500 mr-2">{likeCount}</p>
+                        <AiOutlineHeart
+                        className={`${isLiked ? "text-red-500" : "text-gray-500"}`}
+                        />
+                    </div>
                 </div>
                 
                 <div className="flex justify-between w-full items-center">
+                <Link href={`/renters/${renter}`} prefetch={true}>
+                  <button>
+                    <p className="text-sm text-blue-500">View renter</p>
+                  </button>
+                </Link>
                 <p className="text-base font-medium">${price}</p>
-                <div onClick={(e) => { e.stopPropagation(); handleLike(e); }} className="text-2xl flex flex-row items-center">
-                    <p className="text-sm text-red mr-2">{likeCount}</p>
-                    <AiOutlineHeart
-                    className={`${isLiked ? "text-red-500" : "text-gray-500"}`}
-                    />
-                </div>
                 </div>
             </div>
         </InteractiveCard>

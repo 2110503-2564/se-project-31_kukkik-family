@@ -13,6 +13,7 @@ interface CarProvider {
     seat: number;
     booking: BookingData[];
     id: string;
+    renter: string
   }
   
   interface CarProviderJson {

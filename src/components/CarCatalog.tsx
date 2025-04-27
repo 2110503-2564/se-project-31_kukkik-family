@@ -24,6 +24,7 @@ export default async function CarCatalog({CarProviderJson}: {CarProviderJson: Pr
               seat={data.seat}
               like={data.like}
               province={data.province}
+              renter={data.renter}
             />
           </Link>
         ))}
