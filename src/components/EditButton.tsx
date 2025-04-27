@@ -1,3 +1,4 @@
+"use client"
 import { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 import Image from 'next/image';

@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; 
 import { redirect } from "next/navigation";
 import CarRenterCard from "@/components/CarRenterCard";
+import EditButton from "@/components/EditButton";
 
 export default async function RenterProfilePage({ params }: { params: { rid: string } }) {
 
@@ -21,13 +22,17 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
   return (
     <div className="p-6 bg-[#FFE5B4] flex flex-col justify-center items-center gap-6">
       <div className="text-5xl font-bold">{bookingRes.name}</div>
-      <div className="bg-white text-2xl py-8 px-20 rounded-lg shadow-md flex flex-col gap-4 w-fit">
+      <div className="bg-white text-2xl py-8 px-20 rounded-lg shadow-md flex flex-col gap-4 w-fit relative">
         <div>
           <span className="font-bold">tel. :</span> {bookingRes.tel}
         </div>
         <div>
           <span className="font-bold">email :</span> {bookingRes.email}
         </div>
+        <div className="absolute bottom-4 right-4">
+          <EditButton/>
+        </div>
+        
       </div>
 
 
