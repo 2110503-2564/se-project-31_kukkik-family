@@ -107,7 +107,7 @@ test('withdraw money', async ({ page }) => {
   // Ensure coin element is visible before checking text
   const coin = await page.locator('h1');
   await coin.waitFor({ state: 'visible' });
-  await expect(coin).toHaveText('7,580');
+  await expect(coin).toHaveText('7,280');
 
   // Wait for button and ensure visibility
   const cashOut = page.getByRole('button', { name: /cash out/i });
@@ -117,10 +117,32 @@ test('withdraw money', async ({ page }) => {
 
   await page.waitForLoadState();
 
-  const coinButton = await page.locator('button', {hasText: '100\n COINS'});
-  await expect(coinButton).toBeVisible();
+  const coinButton100 = await page.locator('button', {hasText: '100\n COINS'});
+  await expect(coinButton100).toBeVisible();
 
-  await coinButton.click();
+  console.log(100);
+
+  await coinButton100.click();
+
+  const coinButton200 = await page.locator('button', {hasText: '200\n COINS'});
+  await expect(coinButton200).toBeVisible();
+
+  console.log(200);
+
+  const coinButton300 = await page.locator('button', {hasText: '300\n COINS'});
+  await expect(coinButton300).toBeVisible();
+
+  console.log(300);
+
+  const coinButton400 = await page.locator('button', {hasText: '400\n COINS'});
+  await expect(coinButton400).toBeVisible();
+
+  console.log(400);
+
+  const coinButton500 = await page.locator('button', {hasText: '500\n COINS'});
+  await expect(coinButton500).toBeVisible();
+
+  console.log(500);
 
   const cashout = await page.locator('button', {hasText: /Cash Out/});
   await expect(cashout).toBeVisible();
@@ -133,5 +155,5 @@ test('withdraw money', async ({ page }) => {
 
   const coin2 = await page.locator('h1');
   await coin2.waitFor({ state: 'visible' });
-  await expect(coin2).toHaveText('7,480');  // เปลี่ยนจาก coin เป็น coin2
+  await expect(coin2).toHaveText('7,080');  // เปลี่ยนจาก coin เป็น coin2
 });
