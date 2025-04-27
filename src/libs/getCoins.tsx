@@ -1,6 +1,6 @@
 // libs/getCoins.js
 export const getCoins = async (token: string) => {
-  const response = await fetch('https://se-project-backend-31-kukkik-family.vercel.app/api/v1/coins', {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/coins`, {
 
     method: 'GET',
     headers: {
