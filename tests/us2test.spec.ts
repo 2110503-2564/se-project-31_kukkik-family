@@ -27,8 +27,6 @@ test.beforeEach('login', async ({ page }) => {
 });
 
 test('withdraw money', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
-
   const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
   await expect(goToWallet).toBeVisible();
 
