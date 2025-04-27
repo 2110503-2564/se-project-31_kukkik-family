@@ -27,14 +27,16 @@ export default function OrderList() {
     const fetchOrders = async () => {
       const token = session?.user?.token;
 
-      const res = await fetch("https://se-project-backend-31-kukkik-family.vercel.app/api/v1/bookings/renter/rentals", {
+      const res = await fetch("http://localhost:5000/api/v1/bookings/renter/rentals", {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,  // ส่ง Token ใน Header
         },
       });
 
+      
       const json = await res.json();
+      console.log(json)
       if (json.success) {
         setLoading(false);
         setOrders(json.data);
