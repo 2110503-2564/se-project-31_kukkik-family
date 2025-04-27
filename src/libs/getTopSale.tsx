@@ -1,7 +1,7 @@
 // libs/getBookings.js
 export const getTopSale = async (token: string) => {
     //const response = await fetch('http://localhost:5000/api/v1/bookings', {
-    const response = await fetch('https://se-project-backend-31-kukkik-family.vercel.app/api/v1/carProviders/top-sales', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/carProviders/top-sales`, {
 
         method: 'GET',
         headers: {

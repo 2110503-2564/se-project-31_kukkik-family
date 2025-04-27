@@ -1,6 +1,6 @@
 export default async function getStatus(bid: string, token: string) {
     try {
-      const response = await fetch(`https://se-project-backend-31-kukkik-family.vercel.app/api/v1/bookings/${bid}/status`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/bookings/${bid}/status`, {
       //const response = await fetch(`http://localhost:5000/api/v1/bookings/${bid}/status`, {
         method: "GET",
         headers: {
