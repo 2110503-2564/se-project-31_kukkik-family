@@ -3,7 +3,6 @@ import { test, expect } from '@playwright/test';
 test('login', async ({ page }) => {
   await page.goto('http://localhost:3000/');
 
-  // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Create Next App/);
 
   await page.locator('a', { hasText: 'Sign-In' }).click();
@@ -25,10 +24,10 @@ test('login', async ({ page }) => {
 
   const h1Name = await page.locator('h1', {hasText: 'nutisarenter'});
   await expect(h1Name).toBeVisible();
+});
 
-
-
-  
+test('withdraw money', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
 
   const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
   await expect(goToWallet).toBeVisible();
@@ -40,7 +39,6 @@ test('login', async ({ page }) => {
   // รอ button พร้อม p CASH OUT
   const cashOut = page.getByRole('button', { name: /cash out/i });
   await expect(cashOut).toBeVisible();
-
 
   cashOut.click();
 
@@ -59,42 +57,4 @@ test('login', async ({ page }) => {
   await page.waitForLoadState();
 
   await expect(cashOut).toBeVisible();
-
 });
-
-/* test('withdraw money', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
-
-  const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
-  await expect(goToWallet).toBeVisible();
-
-  await goToWallet.click();
-
-  await page.waitForURL('http://localhost:3000/wallet');
-
-  console.log("*******************************", page.url());
-
-  //await page.waitForSelector('p:has-text("CASH OUT")')
-  await page.waitForTimeout(3000);
-  const cashOut = await page.locator('button', {hasText: /CASH OUT/});
-  await expect(cashOut).toBeVisible();
-
-  cashOut.click();
-
-  await page.waitForLoadState();
-
-  const coinButton = await page.locator('button', {hasText: /100/});
-  await expect(coinButton).toBeVisible();
-
-  const cashout = await page.locator('button', {hasText: /Cash Out/});
-  await expect(cashout).toBeVisible();
-
-  coinButton.click();
-
-  cashOut.click();
-
-  await page.waitForLoadState();
-
-  await expect(cashOut).toBeVisible();
-});
- */
