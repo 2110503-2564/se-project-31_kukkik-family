@@ -62,14 +62,6 @@ export default function TopMenu() {
             >
               Products
             </Link>
-
-            <Link
-              href="/renter"
-              prefetch={true}
-            >
-              Renter
-            </Link>
-
             {session ? (
               <>
 
