@@ -76,6 +76,13 @@ export default function RegisterPage() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Check file size (should not exceed 35KB)
+    if (file.size > 35 * 1024) { // 35KB = 35*1024 Bytes
+      alert("Profile picture must be smaller than 35KB");
+      return;
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormData(prev => ({ ...prev, selfiePicture: reader.result as string }));
@@ -88,6 +95,13 @@ export default function RegisterPage() {
   const handleIdCardUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Check file size (should not exceed 35KB)
+    if (file.size > 35 * 1024) {
+      alert("ID card picture must be smaller than 35KB");
+      return;
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormData(prev => ({ ...prev, idCardPicture: reader.result as string }));
@@ -141,6 +155,7 @@ export default function RegisterPage() {
             </label>
             </div>
             <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
               <input
                 id="name"
                 name="name"
