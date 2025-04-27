@@ -50,3 +50,17 @@ interface CarProvider {
     onDeny?: () => void;
   }
   
+
+  interface User {
+    _id: string;
+    name: string;
+    tel: string;
+    email: string;
+  }
+
+  interface UserJson {
+    success: boolean;
+    count: number;
+    data: User[];
+  }
+  
