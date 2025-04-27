@@ -38,4 +38,15 @@ interface CarProvider {
     count: number;
     data: BookingData[];
   }
+
+  interface RenterCardProps {
+    id: string;
+    name: string;
+    tel: string;
+    email: string;
+    selfiePicture?: string;
+    idCardPicture?: string;
+    onApprove?: () => void;
+    onDeny?: () => void;
+  }
   
