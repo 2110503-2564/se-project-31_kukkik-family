@@ -138,32 +138,52 @@ test.beforeEach('login', async ({ page }) => {
  */
 
 test('withdraw money', async ({ page }) => {
-  await page.goto('http://localhost:5173');
 
-  // ดึง locator ของเหรียญ
-  const coin = await page.locator('h1');
+  // กด Go To Wallet
+  const goToWallet = page.locator('h1', { hasText: 'Go To Wallet' });
+  await expect(goToWallet).toBeVisible();
+  await goToWallet.click();
+
+  // รอเปลี่ยนหน้าไป wallet
+  await page.waitForURL('http://localhost:3000/wallet', { timeout: 10000 });
+  await expect(page).toHaveURL('http://localhost:3000/wallet');
+
+  // ดึง locator ของเหรียญ และรอให้โผล่
+  const coin = page.locator('h1');
   await coin.waitFor({ state: 'visible' });
-
-  // รอให้ไม่เป็น Loading
   await expect(coin).not.toHaveText('Loading...', { timeout: 10000 });
 
   // อ่านค่าเหรียญก่อนถอน
   const coinTextBefore = await coin.textContent();
   const beforeValue = parseInt(coinTextBefore?.replace(/,/g, '') ?? '0', 10);
 
-  // กดปุ่ม Cash Out
+  // หาและกดปุ่ม Cash Out
   const cashOut = page.getByRole('button', { name: /cash out/i });
+  await expect(cashOut).toBeVisible();
   await cashOut.click();
 
-  // หลังถอน ดึงค่าใหม่
-  const coinAfter = await page.locator('h1');
+  // รอปุ่มเลือกจำนวนเหรียญปรากฏ
+  const coinButton100 = page.locator('button', { hasText: '100\n COINS' });
+  await expect(coinButton100).toBeVisible();
+  await coinButton100.click();
+
+  // รอปุ่ม Cash Out จริงๆ แล้วกด
+  const cashoutConfirm = page.locator('button', { hasText: /Cash Out/ });
+  await expect(cashoutConfirm).toBeVisible();
+  await cashoutConfirm.click();
+
+  // รอโหลดหน้าใหม่ให้เสร็จ
+  await page.waitForLoadState();
+
+  // เช็กยอดเหรียญหลังถอน
+  const coinAfter = page.locator('h1');
   await coinAfter.waitFor({ state: 'visible' });
   await expect(coinAfter).not.toHaveText('Loading...', { timeout: 10000 });
 
   const coinTextAfter = await coinAfter.textContent();
   const afterValue = parseInt(coinTextAfter?.replace(/,/g, '') ?? '0', 10);
 
-  // สมมติถอนครั้งนี้ลด 100
+  // เทียบว่ายอดลดลง 100 จริง
   const expectedWithdrawAmount = 100;
   expect(beforeValue - afterValue).toBe(expectedWithdrawAmount);
 });
