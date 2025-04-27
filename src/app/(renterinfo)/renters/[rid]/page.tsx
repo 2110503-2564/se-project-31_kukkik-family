@@ -6,8 +6,11 @@ import { redirect } from "next/navigation";
 import CarRenterCard from "@/components/CarRenterCard";
 import EditButton from "@/components/EditButton";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+
 
 export default async function RenterProfilePage({ params }: { params: { rid: string } }) {
+  const session = await getServerSession(authOptions);
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/carProviders/renter/${params.rid}`, {
     method: 'GET'
@@ -30,9 +33,15 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
         <div className=" text-black">
           <span className="font-bold text-black">email :</span> {bookingRes.email}
         </div>
-        <div className="absolute bottom-4 right-4">
-          <EditButton/>
-        </div>
+        
+        {
+          session?.user?.role === "renter"?(
+          <div className="absolute bottom-4 right-4">
+            <EditButton/>
+          </div>
+          ):(null)
+          
+        }
         
       </div>
 
