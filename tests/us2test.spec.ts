@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach('login', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
+  await page.goto('https://se-project-31-kukkik-family.vercel.app/');
 
   await expect(page).toHaveTitle(/Create Next App/);
 
@@ -31,8 +31,8 @@ test('withdraw money', async ({ page }) => {
   await expect(goToWallet).toBeVisible();
 
   await goToWallet.click();
-  await page.waitForURL('http://localhost:3000/wallet', { timeout: 10000 });
-  await expect(page).toHaveURL('http://localhost:3000/wallet');
+  await page.waitForURL('https://se-project-31-kukkik-family.vercel.app/wallet', { timeout: 10000 });
+  await expect(page).toHaveURL('https://se-project-31-kukkik-family.vercel.app/wallet');
 
   // Ensure coin element is visible before checking text
   const coin = await page.locator('h1');
@@ -75,8 +75,8 @@ test('withdraw money', async ({ page }) => {
   await goToWallet.click();
 
   // รอเปลี่ยนหน้าไป wallet
-  await page.waitForURL('http://localhost:3000/wallet', { timeout: 10000 });
-  await expect(page).toHaveURL('http://localhost:3000/wallet');
+  await page.waitForURL('https://se-project-31-kukkik-family.vercel.app/wallet', { timeout: 10000 });
+  await expect(page).toHaveURL('https://se-project-31-kukkik-family.vercel.app/wallet');
 
   // ดึง locator ของเหรียญ และรอให้โผล่
   const coin = page.locator('h1');
