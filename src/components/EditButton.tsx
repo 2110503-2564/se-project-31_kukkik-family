@@ -1,13 +1,63 @@
 "use client"
 import { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
+import { updateUser } from '@/libs/updateUser';
+import { useSession } from 'next-auth/react';
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 
-export default function EditButton() {
+export default function EditButton({ params }: { params: { name: string , email:string , tel:string } }) {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+  const token = session?.user?.token || "";
+  const uid = session?.user?.user_id || "";
+  const router = useRouter();
+  
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setFormData({
+      name: params.name,
+      tel: params.tel,
+      email: params.email,
+    });
+    setOpen(true);
+    
+  };
+  
   const handleClose = () => setOpen(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    tel: "",
+    email: "",
+  })
+  const handleSave = async () => {
+    try {
+      const dataToSend = { ...formData } as any;
+      if(!dataToSend){
+        return console.log('Failed');
+      }
+
+      const res = await updateUser( token , uid ,formData);
+      setOpen(false);
+      router.refresh();
+
+    }
+    catch (err : any){
+      console.log(err);
+    }
+
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+    
+
+  
 
   return (
     <div>
@@ -25,7 +75,9 @@ export default function EditButton() {
             type="text"
             fullWidth
             variant="standard"
-            defaultValue="John Doe"
+            name='name'
+            defaultValue={params.name}
+            onChange={handleChange}
           />
           <TextField
             margin="dense"
@@ -33,7 +85,9 @@ export default function EditButton() {
             type="text"
             fullWidth
             variant="standard"
-            defaultValue="tel."
+            name='tel'
+            defaultValue={params.tel}
+            onChange={handleChange}
           />
           <TextField
             margin="dense"
@@ -41,12 +95,14 @@ export default function EditButton() {
             type="email"
             fullWidth
             variant="standard"
-            defaultValue="john@example.com"
+            name='email'
+            defaultValue={params.email}
+            onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} variant="contained"
+          <Button onClick={handleSave} variant="contained"
               sx={{
               bgcolor: 'limegreen',
               color: 'white',

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import CarRenterCard from "@/components/CarRenterCard";
 import EditButton from "@/components/EditButton";
 import Link from "next/link";
+
 import { useSession } from "next-auth/react";
 
 
@@ -37,7 +38,7 @@ export default async function RenterProfilePage({ params }: { params: { rid: str
         {
           session?.user?.user_id == params.rid?(
           <div className="absolute bottom-4 right-4">
-            <EditButton/>
+            <EditButton params={bookingRes}/>
           </div>
           ):(null)
           
