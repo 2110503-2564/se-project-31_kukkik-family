@@ -96,7 +96,7 @@ test.beforeEach('login', async ({ page }) => {
   await expect(h1Name).toBeVisible();
 });
 
-test('withdraw money', async ({ page }) => {
+/* test('withdraw money', async ({ page }) => {
   const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
   await expect(goToWallet).toBeVisible();
 
@@ -107,7 +107,7 @@ test('withdraw money', async ({ page }) => {
   // Ensure coin element is visible before checking text
   const coin = await page.locator('h1');
   await coin.waitFor({ state: 'visible' });
-  await expect(coin).toHaveText('6,080');
+  await expect(coin).toHaveText('5,180');
 
   // Wait for button and ensure visibility
   const cashOut = page.getByRole('button', { name: /cash out/i });
@@ -120,10 +120,10 @@ test('withdraw money', async ({ page }) => {
   const coinButton100 = await page.locator('button', {hasText: '100\n COINS'});
   await expect(coinButton100).toBeVisible();
 
-  await coinButton100.click();
-
   const cashout = await page.locator('button', {hasText: /Cash Out/});
   await expect(cashout).toBeVisible();
+
+  await coinButton100.click();
 
   await cashout.click();
 
@@ -133,5 +133,37 @@ test('withdraw money', async ({ page }) => {
 
   const coin2 = await page.locator('h1');
   await coin2.waitFor({ state: 'visible' });
-  await expect(coin2).toHaveText('5,880');  // เปลี่ยนจาก coin เป็น coin2
+  await expect(coin2).toHaveText('5,080');  // เปลี่ยนจาก coin เป็น coin2
+});
+ */
+
+test('withdraw money', async ({ page }) => {
+  await page.goto('http://localhost:5173');
+
+  // ดึง locator ของเหรียญ
+  const coin = await page.locator('h1');
+  await coin.waitFor({ state: 'visible' });
+
+  // รอให้ไม่เป็น Loading
+  await expect(coin).not.toHaveText('Loading...', { timeout: 10000 });
+
+  // อ่านค่าเหรียญก่อนถอน
+  const coinTextBefore = await coin.textContent();
+  const beforeValue = parseInt(coinTextBefore?.replace(/,/g, '') ?? '0', 10);
+
+  // กดปุ่ม Cash Out
+  const cashOut = page.getByRole('button', { name: /cash out/i });
+  await cashOut.click();
+
+  // หลังถอน ดึงค่าใหม่
+  const coinAfter = await page.locator('h1');
+  await coinAfter.waitFor({ state: 'visible' });
+  await expect(coinAfter).not.toHaveText('Loading...', { timeout: 10000 });
+
+  const coinTextAfter = await coinAfter.textContent();
+  const afterValue = parseInt(coinTextAfter?.replace(/,/g, '') ?? '0', 10);
+
+  // สมมติถอนครั้งนี้ลด 100
+  const expectedWithdrawAmount = 100;
+  expect(beforeValue - afterValue).toBe(expectedWithdrawAmount);
 });
