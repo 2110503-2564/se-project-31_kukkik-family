@@ -34,15 +34,13 @@ test('login', async ({ page }) => {
   await expect(goToWallet).toBeVisible();
 
   await goToWallet.click();
+  await page.waitForURL('http://localhost:3000/wallet', { timeout: 10000 });
+  await expect(page).toHaveURL('http://localhost:3000/wallet');
 
-  await page.waitForURL('http://localhost:3000/wallet');
-
-  console.log("*******************************", page.url());
-
-  //await page.waitForSelector('p:has-text("CASH OUT")')
-  await page.waitForTimeout(3000);
-  const cashOut = await page.locator('p', {hasText: /CASH/});
+  // รอ button พร้อม p CASH OUT
+  const cashOut = page.getByRole('button', { name: /cash out/i });
   await expect(cashOut).toBeVisible();
+
 
   cashOut.click();
 
@@ -54,9 +52,9 @@ test('login', async ({ page }) => {
   const cashout = await page.locator('button', {hasText: /Cash Out/});
   await expect(cashout).toBeVisible();
 
-  coinButton.click();
+  await coinButton.click();
 
-  cashout.click();
+  await cashout.click();
 
   await page.waitForLoadState();
 
