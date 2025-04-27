@@ -56,7 +56,7 @@ test('login', async ({ page }) => {
 
   coinButton.click();
 
-  cashOut.click();
+  cashout.click();
 
   await page.waitForLoadState();
 
