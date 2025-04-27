@@ -1,6 +1,6 @@
 export const getQR = async (token: string, coin: number) => {
     // const response = await fetch('http://fe-project-2024-2-rest-in-api.vercel.app/api/v1/coins/getQR', {
-    const response = await fetch('https://se-project-backend-31-kukkik-family.vercel.app/api/v1/coins/getQR', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/coins/getQR`, {
      //const response = await fetch('http://localhost:5000/api/v1/coins/getQR', {
       method: 'POST',
       headers: {
@@ -16,7 +16,7 @@ export const getQR = async (token: string, coin: number) => {
     }
   
     const data = await response.json();
-    const fullURL = `https://api-coin-kukkik.vercel.app/api/v1/coins/redeem/${data.qrCode}`;
+    const fullURL = `${process.env.NEXT_PUBLIC_API}/api/v1/coins/redeem/${data.qrCode}`;
     return fullURL;
   };
   

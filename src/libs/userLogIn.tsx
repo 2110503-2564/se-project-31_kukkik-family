@@ -1,5 +1,5 @@
 export default async function userLogIn(userEmail: string, userPassword: string){
-    const response = await fetch("https://fe-project-2024-2-rest-in-api.vercel.app/api/v1/auth/login", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
