@@ -193,19 +193,19 @@ export default function RegisterPage() {
             </div>
             {/* Handle image */}
             <div className="flex justify-center">
-              <label htmlFor="picture-upload" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2 cursor-pointer">
-                Profile Pic
-              </label>
-              <input
-                key={uploadKey}
-                type="file"
-                id="picture-upload"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
               {isRenter && (
                 <>
+                  <label htmlFor="picture-upload" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2 cursor-pointer">
+                    Profile Pic
+                  </label>
+                  <input
+                    key={uploadKey}
+                    type="file"
+                    id="picture-upload"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
                   <label htmlFor="idcard-upload" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out m-2 cursor-pointer">
                     Id card
                   </label>
