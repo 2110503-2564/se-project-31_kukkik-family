@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('login', async ({ page }) => {
-  await page.goto('https://se-project-31-kukkik-family.vercel.app/');
+  await page.goto('http://localhost:3000/');
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Create Next App/);
@@ -11,7 +11,6 @@ test('login', async ({ page }) => {
   await page.waitForLoadState();
 
   const h1 = await page.locator('h1', {hasText: 'Sign In'});
-
   await expect(h1).toBeVisible();
 
   const inputEmail = await page.locator('input[type="email"]');
@@ -27,14 +26,77 @@ test('login', async ({ page }) => {
   const h1Name = await page.locator('h1', {hasText: 'nutisarenter'});
   await expect(h1Name).toBeVisible();
 
+
+
+  
+
+  const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
+  await expect(goToWallet).toBeVisible();
+
+  await goToWallet.click();
+
+  await page.waitForURL('http://localhost:3000/wallet');
+
+  console.log("*******************************", page.url());
+
+  //await page.waitForSelector('p:has-text("CASH OUT")')
+  await page.waitForTimeout(3000);
+  const cashOut = await page.locator('p', {hasText: /CASH/});
+  await expect(cashOut).toBeVisible();
+
+  cashOut.click();
+
+  await page.waitForLoadState();
+
+  const coinButton = await page.locator('button', {hasText: /100/});
+  await expect(coinButton).toBeVisible();
+
+  const cashout = await page.locator('button', {hasText: /Cash Out/});
+  await expect(cashout).toBeVisible();
+
+  coinButton.click();
+
+  cashOut.click();
+
+  await page.waitForLoadState();
+
+  await expect(cashOut).toBeVisible();
+
 });
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+/* test('withdraw money', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+  const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
+  await expect(goToWallet).toBeVisible();
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  await goToWallet.click();
+
+  await page.waitForURL('http://localhost:3000/wallet');
+
+  console.log("*******************************", page.url());
+
+  //await page.waitForSelector('p:has-text("CASH OUT")')
+  await page.waitForTimeout(3000);
+  const cashOut = await page.locator('button', {hasText: /CASH OUT/});
+  await expect(cashOut).toBeVisible();
+
+  cashOut.click();
+
+  await page.waitForLoadState();
+
+  const coinButton = await page.locator('button', {hasText: /100/});
+  await expect(coinButton).toBeVisible();
+
+  const cashout = await page.locator('button', {hasText: /Cash Out/});
+  await expect(cashout).toBeVisible();
+
+  coinButton.click();
+
+  cashOut.click();
+
+  await page.waitForLoadState();
+
+  await expect(cashOut).toBeVisible();
 });
+ */
