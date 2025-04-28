@@ -65,7 +65,7 @@ export default function WalletPage() {
           </>
         ) : (
           <>
-            <h1 className="text-7xl font-bold">
+            <h1 className="text-7xl font-bold" id="userCoin">
               {coins !== null ? coins.toLocaleString() : 'Loading...'}
             </h1>
             <p className="text-2xl mt-2">COINS</p>
