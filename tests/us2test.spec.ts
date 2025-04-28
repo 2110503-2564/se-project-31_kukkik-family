@@ -136,17 +136,6 @@ test.beforeEach('login', async ({ page }) => {
 
   await expect(page).toHaveTitle(/Create Next App/);
 
-
-
-
-
-
-
-
-
-
-
-
   await page.goto('https://se-project-31-kukkik-family.vercel.app/login');
   // กรอก email
   await page.getByPlaceholder('Email').fill('eiei@gmail.com');
@@ -155,26 +144,12 @@ test.beforeEach('login', async ({ page }) => {
   // กดปุ่ม Sign In
   await page.getByRole('button', { name: /sign in/i }).click();
 
-
-
-
-
-
-
   await page.waitForLoadState('networkidle');
   //await expect(page.locator('h1')).toContainText('eiei');
-
-
-
-
   
 });
 
 test('recieve car and withdraw money', async ({ page }) => {
-
-
-
-
 
   await page.goto('https://se-project-31-kukkik-family.vercel.app/booking');
 
@@ -209,17 +184,8 @@ test('recieve car and withdraw money', async ({ page }) => {
   // รอการจองสำเร็จ (อาจจะต้องรอ element บางอย่างปรากฏขึ้น)
   // await page.waitForSelector(...)
 
-
-
-
-
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(1000); // รอ server ประมวลผล 1 วิ
-
-
-
-
-
 
   // Step 2: ไปหน้า mybooking
   await page.goto('https://se-project-31-kukkik-family.vercel.app/mybooking');
@@ -229,40 +195,9 @@ test('recieve car and withdraw money', async ({ page }) => {
   await expect(receiveButton).toBeVisible();
   await receiveButton.click();
 
-
-
-
   await page.goto('https://se-project-31-kukkik-family.vercel.app/logout');
 
-
-
   await page.waitForLoadState('networkidle');
-
-
-
-/*   await page.locator('a', { hasText: 'Sign-In' }).click();
-
-  await page.waitForLoadState();
-
-  const h1 = await page.locator('h1', {hasText: 'Sign In'});
-  await expect(h1).toBeVisible();
-
-  const inputEmail = await page.locator('input[type="email"]');
-  const inputPassword = await page.locator('input[type="password"]');
-  const submit = await page.locator('button[type="submit"]');
-
-  await inputEmail.fill('nutisarenter@gmail.com');
-  await inputPassword.fill('12345678');
-  await submit.click();
-
-  await page.waitForLoadState();
-
-  const h1Name = await page.locator('h1', {hasText: 'nutisarenter'});
-  await expect(h1Name).toBeVisible(); */
-
-
-
-
 
   await page.goto('https://se-project-31-kukkik-family.vercel.app/login');
   // กรอก email
@@ -274,22 +209,8 @@ test('recieve car and withdraw money', async ({ page }) => {
 
   await page.waitForLoadState();
 
-
-
   const h1Name = await page.locator('h1', {hasText: 'nutisarenter'});
   await expect(h1Name).toBeVisible();
-
-
-
-/* 
-
-  const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
-  await expect(goToWallet).toBeVisible();
-
-  await goToWallet.click();
-  await page.waitForURL('https://se-project-31-kukkik-family.vercel.app/wallet', { timeout: 10000 });
-  await expect(page).toHaveURL('https://se-project-31-kukkik-family.vercel.app/wallet'); */
-
 
   await page.goto('https://se-project-31-kukkik-family.vercel.app/wallet');
 
