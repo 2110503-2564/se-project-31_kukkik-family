@@ -161,6 +161,16 @@ test.beforeEach('login', async ({ page }) => {
 
 
 
+  await page.waitForLoadState('networkidle');
+  //await expect(page.locator('h1')).toContainText('eiei');
+
+
+
+
+  
+});
+
+test('recieve car and withdraw money', async ({ page }) => {
 
 
 
@@ -199,11 +209,23 @@ test.beforeEach('login', async ({ page }) => {
   // รอการจองสำเร็จ (อาจจะต้องรอ element บางอย่างปรากฏขึ้น)
   // await page.waitForSelector(...)
 
+
+
+
+
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(1000); // รอ server ประมวลผล 1 วิ
+
+
+
+
+
+
   // Step 2: ไปหน้า mybooking
   await page.goto('https://se-project-31-kukkik-family.vercel.app/mybooking');
 
   // Step 3: หา Receive button แล้วคลิก
-  const receiveButton = page.locator('button', { hasText: 'Receive' });
+  const receiveButton = page.locator('button', { hasText: 'Receive' }).first();
   await expect(receiveButton).toBeVisible();
   await receiveButton.click();
 
@@ -214,9 +236,11 @@ test.beforeEach('login', async ({ page }) => {
 
 
 
+  await page.waitForLoadState('networkidle');
 
 
-  await page.locator('a', { hasText: 'Sign-In' }).click();
+
+/*   await page.locator('a', { hasText: 'Sign-In' }).click();
 
   await page.waitForLoadState();
 
@@ -234,16 +258,40 @@ test.beforeEach('login', async ({ page }) => {
   await page.waitForLoadState();
 
   const h1Name = await page.locator('h1', {hasText: 'nutisarenter'});
-  await expect(h1Name).toBeVisible();
-});
+  await expect(h1Name).toBeVisible(); */
 
-test('withdraw money', async ({ page }) => {
+
+
+
+
+  await page.goto('https://se-project-31-kukkik-family.vercel.app/login');
+  // กรอก email
+  await page.getByPlaceholder('Email').fill('nutisarenter@gmail.com');
+  // กรอก password
+  await page.getByPlaceholder('Password').fill('12345678');
+  // กดปุ่ม Sign In
+  await page.getByRole('button', { name: /sign in/i }).click();
+
+  await page.waitForLoadState();
+
+
+
+  const h1Name = await page.locator('h1', {hasText: 'nutisarenter'});
+  await expect(h1Name).toBeVisible();
+
+
+
+/* 
+
   const goToWallet = await page.locator('h1', {hasText: 'Go To Wallet'});
   await expect(goToWallet).toBeVisible();
 
   await goToWallet.click();
   await page.waitForURL('https://se-project-31-kukkik-family.vercel.app/wallet', { timeout: 10000 });
-  await expect(page).toHaveURL('https://se-project-31-kukkik-family.vercel.app/wallet');
+  await expect(page).toHaveURL('https://se-project-31-kukkik-family.vercel.app/wallet'); */
+
+
+  await page.goto('https://se-project-31-kukkik-family.vercel.app/wallet');
 
   // Ensure coin element is visible before checking text
   const coin = await page.locator('h1');
@@ -254,7 +302,7 @@ test('withdraw money', async ({ page }) => {
   const cashOut = page.getByRole('button', { name: /cash out/i });
   await expect(cashOut).toBeVisible();
 
-  cashOut.click();
+  await cashOut.click();
 
   await page.waitForLoadState();
 
