@@ -41,7 +41,7 @@ export default function QRPage() {
           const code = await getQR(session.user.token, coin);
           setQRCode(code);
           setCodeUrl(code);
-          
+
           const codeId = code?.split('/').pop() || '';
           if (!codeId) return console.warn('Invalid codeUrl');
           setQrId(codeId);
@@ -143,7 +143,7 @@ export default function QRPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFD8A3]">
       {/* QR code section */}
       {qrId && (
-        <div id="qr-id" data-qrid={qrId} className='display: none;' >
+        <div id="qr-id" data-qrid={qrId} className="hidden" >
           {qrId}
         </div>
       )}
