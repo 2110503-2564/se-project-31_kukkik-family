@@ -7,7 +7,7 @@ test.describe('Booking Flow + MyBooking - Receive and Return buttons', () => {
     // Login ก่อน
     await page.goto('https://se-project-31-kukkik-family.vercel.app/login');
     // กรอก email
-    await page.getByPlaceholder('Email').fill('tung@gmail.com');
+    await page.getByPlaceholder('Email').fill('eiei@gmail.com');
     // กรอก password
     await page.getByPlaceholder('Password').fill('12345678');
     // กดปุ่ม Sign In
