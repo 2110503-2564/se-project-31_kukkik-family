@@ -31,8 +31,19 @@ export default function EditButton({ params }: { params: { name: string , email:
     email: "",
   })
   const handleSave = async () => {
+    const requiredFields = ['name', 'tel', 'email'];
+    const emptyFields = requiredFields.filter(field => {
+      return !formData[field as keyof typeof formData] || formData[field as keyof typeof formData].toString().trim() === '';
+    });
+
+    if (emptyFields.length > 0) {
+      alert('Please fill out all fields.');
+      return;
+    }
+
     try {
       const dataToSend = { ...formData } as any;
+      
       if(!dataToSend){
         return console.log('Failed');
       }
