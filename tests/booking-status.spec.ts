@@ -48,9 +48,14 @@ test.describe('Booking Flow + MyBooking - Receive and Return buttons', () => {
 
     // รอการจองสำเร็จ (อาจจะต้องรอ element บางอย่างปรากฏขึ้น)
     // await page.getByRole('alert', { name: /จองรถสำเร็จ/i }).waitFor();
+    await page.waitForSelector('div[role="alert"]:has-text("Booking successful!")', { timeout: 10000 });
+
 
     // Step 2: ไปหน้า mybooking
     await page.goto('https://se-project-31-kukkik-family.vercel.app/mybooking');
+
+    // รอจนกว่าปุ่ม Receive จะปรากฏบนหน้า
+    await page.waitForSelector('button:has-text("Receive")', { timeout: 10000 });
 
     // Step 3: หา Receive button แล้วคลิก
     const receiveButton = page.locator('button', { hasText: 'Receive' }).first();
@@ -59,13 +64,14 @@ test.describe('Booking Flow + MyBooking - Receive and Return buttons', () => {
 
     // รอให้มีปุ่ม Return แสดงขึ้น
     const returnButton = page.locator('button', { hasText: 'Return' }).first();
-    await expect(returnButton).toBeVisible();
+    await expect(returnButton).toBeVisible({ timeout: 10000 });
+    //await expect(returnButton).toBeVisible();
 
     // Step 4: คลิก Return button
     await returnButton.click();
 
     // หลังจากคืนรถแล้ว ปุ่ม Return ต้องหายไป
-    await expect(returnButton).toBeHidden();
+    await expect(returnButton).toBeHidden({ timeout: 10000 });
   });
 
 });

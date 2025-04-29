@@ -22,10 +22,10 @@
     },
     {
       "name": "__Secure-next-auth.session-token",
-      "value": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..XQvNvCxRnD9bz68t.pSFmNkJH99yv76-bhaV8jUOacDyFhFjNgbe4HzGalMuE-qwRAMIyrw0Y-jy08ni61O9BwdANRXf2DaOHtX5n-0biplGmaBSgc1JG9G9oagPrQNxcLWpbQ8pVnEPK7S0jTiVC9xATDOM-5levD-o2q3-8uzD_VOZ6LPr6sKmfdfqovgFSjA_Eg4ga9aXFJONI3jJySic5j5u1IXnTZ5rDh4-08KJqlnuVkAV6Gb6Uv1oGHd7wm-YTKn6ig7hjsKIwpdmBH4fmirv94yVXUBWcVVY1g3Cr4CAqsiThKOFDWlGxeBzjXHWtiki1jYBtH6vTS7tKcH2v3V6Gw8DS2eMZkkVm0oh8KBlC4OeZEG8ZnmcKkhves2NX23_tO5zqrqe5PkzS4O22kJahUEjhRvbHn7rRx747bbl3zvLuhNFOuxmq7JKwI7sDgTy7xKoVKtwABeVjX9nleylm1dkAmloS8HrPrepZpeLa_sEcfwtJKNkQ3FaNXhptBBTuz01O8bseEsto.uLRRfRkeFxYKgq8RwgCpkg",
+      "value": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..l493S7vCxBiqsxaT.LARtsev2e8y071b_5nwGv8CpJLWAbeCSArnW5degt0-UezKRFY-57AeHyrIr-DBC0N2fVJwtXabRIdq_LhkN7bSSFS4uSzbHITv1fqEfQ0PzPFuGPR39Ljdb6uVY2kX18M-oOyVTIkTHldYL9EYhMgfUb24tfcFd70wYTWIhk_7E58T3dT34DNz1KVNiF1_HLaekGCcaAm8jOR5KoDNiO1-Fk6Jf7Tx7LzTMIxnwUQPLUmj7H4BisRUTcAaNTLszo5IWBvdMS7ip7lX8upPo7NNbAhTDgDWOTd5bO3Giu9q5sG9B4QOfnve3CNI-dqIqgp1lrJsmu3Y4VDSZAsoX2eHSs-FZGK3mAuA6kPcFVnG0S1VMJgw7Y3dkWkzLqw_wQkxwKvpMvpdQlirNaBTRcV4ZCzp1ZNfy_YOGR7Fz6O4lWEgnxOyMYenFPYKnAkgO1-Gwpq2sa1SdtKBn38rqfu2WQ5MocC1EvE_0HJkowrEszVtATlbmny7fX0PN87yv6d04.2FR7FmJOmOyT0hz0MN6jOQ",
       "domain": "se-project-31-kukkik-family.vercel.app",
       "path": "/",
-      "expires": 1748346802.333006,
+      "expires": 1748528315.888821,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"
