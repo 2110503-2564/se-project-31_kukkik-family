@@ -156,7 +156,7 @@ export default function CoinPage() {
           </div>
         </div>
       )}
-      {keyword == "deduct" && (
+      {keyword == "deduct" && role == "renter" && (
         <button
           onClick={handleCashOut}
           className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-xl text-xl font-semibold shadow"
@@ -164,7 +164,7 @@ export default function CoinPage() {
           Cash Out
         </button>
       )}
-      {keyword == "add" && (
+      {keyword == "add" && role == "user" && (
         <button
           onClick={handleAddCoins}
           className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-xl text-xl font-semibold shadow"

@@ -19,6 +19,7 @@ export default function QRPage() {
   const [selectedCoin, setSelectedCoin] = useState<number | null>(null);
   const [qrCode, setQRCode] = useState<string | null>(null);
   const [codeUrl, setCodeUrl] = useState<string | null>(null);
+  const [qrId, setQrId] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const amountParam = searchParams.get('amount');
@@ -39,7 +40,13 @@ export default function QRPage() {
         try {
           const code = await getQR(session.user.token, coin);
           setQRCode(code);
-          setCodeUrl( code );
+          setCodeUrl(code);
+
+          const codeId = code?.split('/').pop() || '';
+          if (!codeId) return console.warn('Invalid codeUrl');
+          setQrId(codeId);
+          
+
         } catch (error) {
           console.error('Failed to get QR code:', error);
         }
@@ -116,7 +123,7 @@ export default function QRPage() {
       catch(err){
         console.log(err);
       }
-    }, 1000); // poll every 2 seconds
+    }, 1000); // poll every 1 seconds
     return () => clearInterval(interval); // cleanup on unmount
   }, [codeUrl, router, qrCode]);
 
@@ -135,6 +142,11 @@ export default function QRPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFD8A3]">
       {/* QR code section */}
+      {qrId && (
+        <div id="qr-id" data-qrid={qrId} className="hidden" >
+          {qrId}
+        </div>
+      )}
       <div className="p-6 bg-white rounded-3xl shadow-md">
         {qrCode ? (
           <QRCodeCanvas value={qrCode} size={200} />

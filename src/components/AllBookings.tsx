@@ -181,14 +181,16 @@ const AllBookings = () => {
             {/* Add received and return buttons */}
             { booking.status === "rented" && booking.user === session?.user.user_id && (
               <button className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:shadow-lg focus:ring-2 focus:ring-green-300 transition duration-300 ease-in-out my-3 mx-1 items-center justify-center"
-                onClick={() => handleStatusChange(booking, "received")}>
-                Received
+                onClick={() => handleStatusChange(booking, "received")}
+                aria-label="Received">
+                Receive
               </button>
             )}
 
             {booking.status === "received" && booking.user === session?.user.user_id && (
               <button className="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 hover:shadow-lg focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out my-3 mx-1 items-center justify-center"
-                onClick={() => handleStatusChange(booking, "returned")}>
+                onClick={() => handleStatusChange(booking, "returned")}
+                aria-label="Returned">
                 Return
               </button>
             )}
