@@ -158,8 +158,11 @@ const makeBooking = async (): Promise<boolean> => {
           </Select>
         </FormControl>
 
+        <DateReserve
+          onDateChange={(value: Dayjs) => setPickupDate(value)}
+          onReturnDateChange={(value: Dayjs) => setReturnDate(value)} // ฟังก์ชันที่ใช้สำหรับคืนรถ
+        />
    
-
         <Button
           type="submit"
           name="Book Car"
