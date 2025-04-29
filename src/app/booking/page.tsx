@@ -158,7 +158,7 @@ const makeBooking = async (): Promise<boolean> => {
           </Select>
         </FormControl>
 
-        ย
+   
 
         <Button
           type="submit"
