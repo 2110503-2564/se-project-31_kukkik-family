@@ -12,7 +12,6 @@ import { createBooking } from "@/libs/createBooking";
 import { useSession } from "next-auth/react";
 import getCarProviders from "@/libs/getCarProviders";
 import getCarProvider from "@/libs/getCarProvider";
-import { deductCoins } from "@/libs/deductCoins";
 
 // booking page
 export default function Booking() {
@@ -171,16 +170,7 @@ const makeBooking = async (): Promise<boolean> => {
             const bookingSuccess = await makeBooking();
           
             const token = session?.user?.token;
-            
-            //หักเงิน
-            if (bookingSuccess && token && dailyRate !== null) {
-              try {
-                await deductCoins(token, dailyRate);
-                console.log("Coins deducted:", dailyRate);
-              } catch (error) {
-                console.error("Error during coin deduction:", error);
-              }
-            }
+          
           }}          
         >
           Book Car
