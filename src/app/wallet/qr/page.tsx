@@ -143,7 +143,7 @@ export default function QRPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFD8A3]">
       {/* QR code section */}
       {qrId && (
-        <div id="qr-id" data-qrid={qrId} className="hidden" >
+        <div id="qr-id" data-qrid={qrId} className='text-[#FFD8A3]'>
           {qrId}
         </div>
       )}

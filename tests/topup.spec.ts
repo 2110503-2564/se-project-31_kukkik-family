@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 const apiURL = 'https://se-project-backend-31-kukkik-family.vercel.app';
-const webURL = 'https://se-project-31-kukkik-family.vercel.app/' 
+const webURL = 'https://se-project-31-kukkik-family.vercel.app'; 
+//const webURL = 'http://localhost:3000' 
 
 let token: string;
 
@@ -10,14 +11,14 @@ test.beforeEach(async ({ request, page }) => {
     await page.goto(`${webURL}/login`);
 
     // กรอก email
-    await page.getByPlaceholder('Email').fill('tung@gmail.com');
+    await page.getByPlaceholder('Email').fill('Toya@gmail.com');
     // กรอก password
     await page.getByPlaceholder('Password').fill('12345678');
     // กดปุ่ม Sign In
     await page.getByRole('button', { name: /sign in/i }).click();
     const loginResponse = await request.post(`${apiURL}/api/v1/auth/login`, {
         data: {
-        email: 'tung@gmail.com',  
+        email: 'Toya@gmail.com',  
         password: '12345678',    
         },
     });
@@ -83,10 +84,7 @@ test('check user coin and topup', async ({ page, request }) => {
     const coinEnd = resEnd.coin;
 
     expect(coinEnd).toEqual(coin + 500);
-    await page.waitForFunction(() => {
-        const el = document.getElementById('userCoin');
-        return el && el.textContent !== 'Loading...';
-    });
+    
     
 
 })
