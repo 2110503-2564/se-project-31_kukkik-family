@@ -33,8 +33,24 @@ export default function TopMenu() {
         </Link>
       </div>
       <div className="flex items-center space-x-4 absolute right-0 h-full px-8">
+        <Link
+          href="/cars"
+          prefetch={true}
+          className={`${styles.itemcontainer} ${pathname === "/cars" ? styles.active : ""
+            }`}
+        >
+          Products
+        </Link>
         {session?.user?.role === "renter" ? (
           <>
+            <Link
+              href={"/renters/addrentalcar"}
+              prefetch={true}
+              className={`${styles.itemcontainer} ${pathname === "/renters" ? styles.active : ""
+                }`}
+            >
+              Post car
+            </Link>
             <Link
               href={`/renters/${session?.user?.user_id}`}
               prefetch={true}
@@ -53,15 +69,6 @@ export default function TopMenu() {
           </>
         ) : (
           <>
-            <Link
-              href="/cars"
-              prefetch={true}
-              className={`${styles.itemcontainer} ${
-                pathname === "/cars" ? styles.active : ""
-              }`}
-            >
-              Products
-            </Link>
             {session ? (
               <>
 
