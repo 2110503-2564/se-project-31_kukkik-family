@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const apiURL = 'https://se-project-backend-31-kukkik-family.vercel.app';
-const webURL = 'http://localhost:3000' 
+const webURL = 'https://se-project-31-kukkik-family.vercel.app/' 
 
 let token: string;
 
